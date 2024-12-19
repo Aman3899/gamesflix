@@ -6,9 +6,6 @@ const FeaturedSlider = () => {
     const [isTransitioning, setIsTransitioning] = useState(false);
 
 
-
-
-
     const slides = [
         {
             id: 1,
