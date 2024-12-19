@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import FeaturedSlider from "./components/FeaturedSlides";
 
 const API_KEY = "bb957792ca944879b0eb28b31ed414ef"; // Replace with your RAWG API key
 const API_URL = "https://api.rawg.io/api/games";
@@ -13,30 +14,30 @@ const GamingPage = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    // Fetch data from RAWG API for the current page
-    const fetchGames = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(API_URL, {
-          params: {
-            key: API_KEY,
-            page: currentPage,
-            page_size: 20, // Number of games per page
-            search: searchQuery || undefined,
-          },
-        });
-        setGames(response.data.results);
-        setTotalPages(Math.ceil(response.data.count / 20)); // Calculate total pages
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching games:", error);
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   // Fetch data from RAWG API for the current page
+  //   const fetchGames = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await axios.get(API_URL, {
+  //         params: {
+  //           key: API_KEY,
+  //           page: currentPage,
+  //           page_size: 20, // Number of games per page
+  //           search: searchQuery || undefined,
+  //         },
+  //       });
+  //       setGames(response.data.results);
+  //       setTotalPages(Math.ceil(response.data.count / 20)); // Calculate total pages
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error("Error fetching games:", error);
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchGames();
-  }, [currentPage, searchQuery]);
+  //   fetchGames();
+  // }, [currentPage, searchQuery]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -107,6 +108,9 @@ const GamingPage = () => {
   return (
     <div className="bg-gray-900 min-h-screen py-10">
       <h1 className="text-white text-4xl text-center mb-8">GamesFlex</h1>
+
+      <FeaturedSlider />
+
       <div className="flex justify-center mb-6 px-6">
         <input
           type="text"
@@ -123,7 +127,7 @@ const GamingPage = () => {
         <p className="text-white text-center">Loading...</p>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-sm:grid-cols-2 gap-6 px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6">
             {games.map((game) => (
               <Link href={`/game/${game.id}`} key={game.id}>
                 <div
