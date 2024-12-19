@@ -2,10 +2,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import Navbar from "./components/Navbar";
 import FeaturedSlider from "./components/FeaturedSlides";
 
-const API_KEY = "bb957792ca944879b0eb28b31ed414ef"; // Replace with your RAWG API key
+
+const API_KEY = "bb957792ca944879b0eb28b31ed414ef";
 const API_URL = "https://api.rawg.io/api/games";
+
 
 const GamingPage = () => {
   const [games, setGames] = useState([]);
@@ -38,6 +41,7 @@ const GamingPage = () => {
 
   //   fetchGames();
   // }, [currentPage, searchQuery]);
+
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -106,12 +110,12 @@ const GamingPage = () => {
   };
 
   return (
-    <div className="bg-gray-900 min-h-screen py-10">
-      <h1 className="text-white text-4xl text-center mb-8">GamesFlex</h1>
+    <div className="bg-gray-900 min-h-screen pb-10">
 
+      <Navbar />
       <FeaturedSlider />
 
-      <div className="flex justify-center mb-6 px-6">
+      <div className="flex justify-center w-full mb-6 max-sm:px-2 max-sm:mb-3">
         <input
           type="text"
           placeholder="Search for games..."
