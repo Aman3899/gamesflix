@@ -4,6 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import Navbar from "./components/Navbar";
 import FeaturedSlider from "./components/FeaturedSlides";
+import Image from "next/image";
 
 
 const API_KEY = "bb957792ca944879b0eb28b31ed414ef";
@@ -17,30 +18,30 @@ const GamingPage = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // useEffect(() => {
-  //   // Fetch data from RAWG API for the current page
-  //   const fetchGames = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const response = await axios.get(API_URL, {
-  //         params: {
-  //           key: API_KEY,
-  //           page: currentPage,
-  //           page_size: 20, // Number of games per page
-  //           search: searchQuery || undefined,
-  //         },
-  //       });
-  //       setGames(response.data.results);
-  //       setTotalPages(Math.ceil(response.data.count / 20)); // Calculate total pages
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("Error fetching games:", error);
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    // Fetch data from RAWG API for the current page
+    const fetchGames = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(API_URL, {
+          params: {
+            key: API_KEY,
+            page: currentPage,
+            page_size: 20, // Number of games per page
+            search: searchQuery || undefined,
+          },
+        });
+        setGames(response.data.results);
+        setTotalPages(Math.ceil(response.data.count / 20)); // Calculate total pages
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching games:", error);
+        setLoading(false);
+      }
+    };
 
-  //   fetchGames();
-  // }, [currentPage, searchQuery]);
+    fetchGames();
+  }, [currentPage, searchQuery]);
 
 
   const handlePageChange = (page) => {
@@ -115,7 +116,7 @@ const GamingPage = () => {
       <Navbar />
       <FeaturedSlider />
 
-      <div className="flex justify-center w-full mb-6 max-sm:px-2 max-sm:mb-3">
+      <div className="flex justify-center w-full mb-16 max-sm:px-2 max-sm:mb-3">
         <input
           type="text"
           placeholder="Search for games..."
@@ -131,6 +132,7 @@ const GamingPage = () => {
         <p className="text-white text-center">Loading...</p>
       ) : (
         <>
+            <h1 className="text-3xl font-bold text-center text-white pb-10 max-sm:pb-4">Games</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6">
             {games.map((game) => (
               <Link href={`/game/${game.id}`} key={game.id}>
@@ -138,7 +140,9 @@ const GamingPage = () => {
                   key={game.id}
                   className="relative group overflow-hidden rounded-lg shadow-lg"
                 >
-                  <img
+                  <Image
+                    width={1920}
+                    height={1080}
                     src={game.background_image}
                     alt={game.name}
                     className="w-full h-48 object-cover transform group-hover:scale-110 transition duration-500"

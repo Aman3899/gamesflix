@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 
@@ -10,9 +11,13 @@ const Navbar = () => {
 
     return (
         <header className="bg-gray-800 text-white m-0 top-0 p-0">
-            <div className="container mx-auto flex items-center justify-between p-4">
+            <div className="container mx-auto flex items-center justify-between">
                 {/* Logo/Name */}
-                <Link href="/" className="text-2xl font-bold">GamesFlex</Link>
+                <Link href="/" className="text-2xl font-bold">
+                    <Image 
+                        width={75} height={75} src={"/logo.png"} alt={"Logo"}>
+                    </Image>
+                </Link>
 
                 {/* Desktop Links */}
                 <nav className="hidden md:flex space-x-6">

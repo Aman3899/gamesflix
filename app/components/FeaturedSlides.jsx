@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
 const FeaturedSlider = () => {
@@ -163,7 +164,7 @@ const FeaturedSlider = () => {
             id: 20,
             title: "World of Warcraft",
             description: "Enter Azeroth and join millions of players in this legendary MMORPG.",
-            imageUrl: "/api/placeholder/1200/600",
+            imageUrl: "/world_of_warcraft.jpg",
             buttonText: "Start Adventure",
             bgColor: "from-blue-700 to-green-600"
         },
@@ -171,7 +172,7 @@ const FeaturedSlider = () => {
             id: 21,
             title: "Genshin Impact",
             description: "Embark on a journey across Teyvat in this vast open-world action RPG.",
-            imageUrl: "/api/placeholder/1200/600",
+            imageUrl: "/genshin_impact.jpg",
             buttonText: "Start Journey",
             bgColor: "from-blue-400 to-green-400"
         },
@@ -179,7 +180,7 @@ const FeaturedSlider = () => {
             id: 22,
             title: "Roblox",
             description: "Join millions of players in this massive platform of user-created gaming experiences.",
-            imageUrl: "/api/placeholder/1200/600",
+            imageUrl: "/roblox.jpg",
             buttonText: "Play Now",
             bgColor: "from-red-500 to-blue-500"
         },
@@ -187,7 +188,7 @@ const FeaturedSlider = () => {
             id: 23,
             title: "Rainbow Six Siege",
             description: "Engage in tactical team-based combat with destructible environments.",
-            imageUrl: "/api/placeholder/1200/600",
+            imageUrl: "/rainbow_six_siege.jpg",
             buttonText: "Deploy",
             bgColor: "from-blue-800 to-gray-900"
         },
@@ -195,7 +196,7 @@ const FeaturedSlider = () => {
             id: 24,
             title: "Monster Hunter: World",
             description: "Hunt massive creatures and craft epic gear in this action RPG phenomenon.",
-            imageUrl: "/api/placeholder/1200/600",
+            imageUrl: "/monster_hunter_world.jpg",
             buttonText: "Start Hunt",
             bgColor: "from-yellow-600 to-red-700"
         },
@@ -203,180 +204,203 @@ const FeaturedSlider = () => {
             id: 25,
             title: "Final Fantasy XIV",
             description: "Experience an epic MMORPG saga with millions of players worldwide.",
-            imageUrl: "/api/placeholder/1200/600",
+            imageUrl: "/final_fantasy_16.jpg",
             buttonText: "Begin Adventure",
             bgColor: "from-blue-600 to-purple-700"
         },
         // Continuing with more popular games...
         {
             id: 26,
-            title: "Pokemon Scarlet & Violet",
-            description: "Catch, train, and battle Pokemon in the open world of Paldea.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Start Journey",
-            bgColor: "from-red-500 to-purple-500"
+            title: "Far Cry 5",
+            description: "Fight to free Hope County from a doomsday cult in this open-world FPS.",
+            imageUrl: "/far_cry_5.jpeg",
+            buttonText: "Liberate Now",
+            bgColor: "from-blue-600 to-green-400"
         },
         {
             id: 27,
-            title: "Overwatch 2",
-            description: "Join the fight for the future in this team-based action game.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Play Free",
-            bgColor: "from-orange-400 to-blue-500"
+            title: "Far Cry 6",
+            description: "Lead a revolution to free the island of Yara in this thrilling adventure.",
+            imageUrl: "/far_cry_6.jpg",
+            buttonText: "Start Revolution",
+            bgColor: "from-red-600 to-orange-400"
         },
         {
             id: 28,
-            title: "Dead by Daylight",
-            description: "Survive or hunt in this multiplayer horror game phenomenon.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Join Hunt",
-            bgColor: "from-gray-900 to-red-900"
+            title: "Watch Dogs 2",
+            description: "Hack your way through the vibrant streets of San Francisco.",
+            imageUrl: "/watch_dogs_2.jpg",
+            buttonText: "Hack the City",
+            bgColor: "from-gray-800 to-blue-500"
         },
         {
             id: 29,
-            title: "Among Us",
-            description: "Find the impostor in this social deduction game that took the world by storm.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Join Crew",
-            bgColor: "from-blue-500 to-red-500"
+            title: "Watch Dogs: Legion",
+            description: "Build your resistance and reclaim a dystopian London.",
+            imageUrl: "/watch_dogs_legion.jpg",
+            buttonText: "Join Resistance",
+            bgColor: "from-yellow-400 to-red-500"
         },
         {
             id: 30,
-            title: "Fall Guys",
-            description: "Stumble towards victory in this colorful battle royale party game.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Start Running",
-            bgColor: "from-pink-500 to-yellow-500"
-        },
-        {
-            id: 31,
-            title: "The Sims 4",
-            description: "Create and control people in a virtual world in this life simulation phenomenon.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Start Living",
-            bgColor: "from-green-400 to-blue-400"
-        },
-        {
-            id: 32,
-            title: "Rocket League",
-            description: "Play soccer with rocket-powered cars in this unique sports game.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Start Match",
-            bgColor: "from-blue-500 to-orange-500"
-        },
-        {
-            id: 33,
-            title: "ARK: Survival Evolved",
-            description: "Survive in a world of dinosaurs and prehistoric creatures.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Start Surviving",
-            bgColor: "from-green-700 to-blue-700"
-        },
-        {
-            id: 34,
-            title: "Terraria",
-            description: "Dig, fight, explore, build in this beloved 2D adventure game.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Start Digging",
-            bgColor: "from-green-500 to-blue-500"
-        },
-        {
-            id: 35,
-            title: "Sea of Thieves",
-            description: "Become a pirate legend in this shared-world adventure game.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Set Sail",
-            bgColor: "from-blue-600 to-green-500"
-        },
-        // Adding more games to reach 50...
-        {
-            id: 36,
-            title: "Destiny 2",
-            description: "Become a Guardian and protect humanity in this epic shared-world shooter.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Become Legend",
-            bgColor: "from-blue-900 to-purple-700"
-        },
-        {
-            id: 37,
-            title: "Starfield",
-            description: "Explore the stars in Bethesda's epic space RPG adventure.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Launch",
-            bgColor: "from-gray-800 to-blue-900"
-        },
-        {
-            id: 38,
-            title: "No Man's Sky",
-            description: "Explore an infinite procedurally generated universe.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Explore Space",
-            bgColor: "from-purple-500 to-pink-500"
-        },
-        {
-            id: 39,
-            title: "Diablo IV",
-            description: "Fight through hell in this dark action RPG.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Fight Evil",
-            bgColor: "from-red-900 to-gray-900"
-        },
-        {
-            id: 40,
-            title: "Assassin's Creed Valhalla",
-            description: "Become a Viking warrior in this epic historical action RPG.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Start Raid",
-            bgColor: "from-blue-700 to-gray-700"
-        },
-        {
-            id: 41,
-            title: "Stardew Valley",
-            description: "Build your dream farm in this charming country-life RPG.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Start Farming",
-            bgColor: "from-green-400 to-yellow-400"
-        },
-        {
-            id: 42,
-            title: "Persona 5 Royal",
-            description: "Live a double life as a high school student and phantom thief.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Start Story",
+            title: "Tekken 7",
+            description: "Fight your way to glory in this iconic fighting game.",
+            imageUrl: "/tekken_7.jpg",
+            buttonText: "Fight Now",
             bgColor: "from-red-600 to-black"
         },
         {
-            id: 43,
-            title: "Dark Souls III",
-            description: "Face brutal challenges in this legendary action RPG.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Prepare to Die",
-            bgColor: "from-gray-800 to-red-900"
+            id: 31,
+            title: "Tekken 8",
+            description: "Experience the next generation of epic fights and stories.",
+            imageUrl: "/tekken_8.jpg",
+            buttonText: "Enter the Battle",
+            bgColor: "from-blue-600 to-gray-800"
         },
         {
-            id: 44,
-            title: "Street Fighter 6",
-            description: "Fight your way to the top in this legendary fighting game series.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Fight Now",
-            bgColor: "from-blue-600 to-yellow-500"
-        },
-        {
-            id: 45,
+            id: 32,
             title: "Hogwarts Legacy",
-            description: "Live your wizarding world dreams in this open-world action RPG.",
-            imageUrl: "/api/placeholder/1200/600",
+            description: "Live your wizarding dreams in this open-world action RPG.",
+            imageUrl: "/hogwarts_legacy.jpg",
             buttonText: "Cast Spells",
             bgColor: "from-purple-800 to-yellow-700"
         },
         {
-            id: 46,
-            title: "Resident Evil 4 Remake",
-            description: "Survive horror in this reimagined survival classic.",
-            imageUrl: "/api/placeholder/1200/600",
-            buttonText: "Face Fear",
-            bgColor: "from-gray-900 to-red-900"
+            id: 33,
+            title: "Detroit: Become Human",
+            description: "Shape humanity's future in this gripping interactive drama.",
+            imageUrl: "/detroit_become_human.jpg",
+            buttonText: "Decide Fate",
+            bgColor: "from-gray-900 to-blue-500"
         },
+        {
+            id: 34,
+            title: "Uncharted 4: A Thief's End",
+            description: "Embark on Nathan Drake's final adventure in this action-packed story.",
+            imageUrl: "/uncharted_4.jpg",
+            buttonText: "Start Adventure",
+            bgColor: "from-blue-700 to-gray-700"
+        },
+        {
+            id: 35,
+            title: "Battlefield 2042",
+            description: "Join the epic battles in this futuristic warfare experience.",
+            imageUrl: "/battlefield_2042.jpg",
+            buttonText: "Start Combat",
+            bgColor: "from-gray-800 to-blue-600"
+        },
+        {
+            id: 36,
+            title: "Resident Evil Village",
+            description: "Survive the horrors of a mysterious village in this survival horror game.",
+            imageUrl: "/resident_evil_village.jpg",
+            buttonText: "Survive Now",
+            bgColor: "from-gray-900 to-purple-900"
+        },
+        {
+            id: 37,
+            title: "Resident Evil 4 Remake",
+            description: "Experience the reimagined classic survival horror adventure.",
+            imageUrl: "/resident_evil_4_remake.jpg",
+            buttonText: "Face the Horror",
+            bgColor: "from-red-900 to-black"
+        },
+        {
+            id: 38,
+            title: "Sniper Elite 5",
+            description: "Take out targets with precision in this tactical shooter.",
+            imageUrl: "/sniper_elite_5.jpg",
+            buttonText: "Take the Shot",
+            bgColor: "from-gray-800 to-green-700"
+        },
+        {
+            id: 39,
+            title: "GTA San Andreas",
+            description: "Explore and conquer the streets of Los Santos.",
+            imageUrl: "/gta_san_andreas.jpg",
+            buttonText: "Start Chaos",
+            bgColor: "from-yellow-500 to-orange-500"
+        },
+        {
+            id: 40,
+            title: "GTA Vice City",
+            description: "Relive the neon-soaked streets of the '80s in Vice City.",
+            imageUrl: "/gta_vice_city.jpg",
+            buttonText: "Take Control",
+            bgColor: "from-pink-600 to-purple-700"
+        },
+        {
+            id: 41,
+            title: "GTA IV",
+            description: "Climb to the top of Liberty City's underworld.",
+            imageUrl: "/gta_iv.jpg",
+            buttonText: "Explore Now",
+            bgColor: "from-gray-700 to-blue-800"
+        },
+        {
+            id: 42,
+            title: "Red Dead Redemption",
+            description: "Ride into the Old West and experience the story of John Marston.",
+            imageUrl: "/red_dead_redemption.jpg",
+            buttonText: "Ride Now",
+            bgColor: "from-brown-600 to-orange-700"
+        },
+        {
+            id: 43,
+            title: "Mafia III",
+            description: "Rebuild your criminal empire in 1968 New Bordeaux.",
+            imageUrl: "/mafia_iii.jpg",
+            buttonText: "Start Empire",
+            bgColor: "from-red-700 to-black"
+        },
+        {
+            id: 44,
+            title: "Max Payne 3",
+            description: "Dive into this gripping, action-packed third-person shooter.",
+            imageUrl: "/max_payne_3.jpg",
+            buttonText: "Start Revenge",
+            bgColor: "from-gray-700 to-blue-700"
+        },
+        {
+            id: 45,
+            title: "Hitman 3",
+            description: "Become the ultimate assassin in this stealth action game.",
+            imageUrl: "/hitman_3.jpg",
+            buttonText: "Assassinate Now",
+            bgColor: "from-gray-900 to-black"
+        },
+        {
+            id: 46,
+            title: "Assassin's Creed Origins",
+            description: "Uncover the origins of the Brotherhood in ancient Egypt.",
+            imageUrl: "/assassins_creed_origins.jpg",
+            buttonText: "Start Quest",
+            bgColor: "from-yellow-700 to-orange-600"
+        },
+        {
+            id: 47,
+            title: "Assassin's Creed Odyssey",
+            description: "Embark on an epic journey through ancient Greece.",
+            imageUrl: "/assassins_creed_odyssey.jpg",
+            buttonText: "Conquer Greece",
+            bgColor: "from-blue-700 to-green-600"
+        },
+        {
+            id: 48,
+            title: "WWE 2K23",
+            description: "Step into the ring and dominate in the world of WWE.",
+            imageUrl: "/wwe_2k23.jpg",
+            buttonText: "Enter Ring",
+            bgColor: "from-red-700 to-blue-700"
+        },
+        {
+            id: 49,
+            title: "PES 2023",
+            description: "Experience football like never before in this realistic simulation.",
+            imageUrl: "/pes_2023.jpg",
+            buttonText: "Play Now",
+            bgColor: "from-green-500 to-blue-500"
+        }
     ];
 
 
@@ -413,10 +437,12 @@ const FeaturedSlider = () => {
         <div className="relative w-full h-[600px] max-sm:h-[250px] overflow-hidden bg-gray-900 mb-16 max-sm:mb-8">
             {/* Main Slide */}
             <div className="relative h-full">
-                <img
+                <Image
+                    width={1920}
+                    height={1080}
                     src={slides[activeIndex].imageUrl}
                     alt={slides[activeIndex].title}
-                    className={`w-full h-full object-cover transform transition-transform duration-1000 ease-in-out ${isTransitioning ? 'scale-105 opacity-90' : 'scale-100'
+                    className={`w-full h-full object-fit transform transition-transform duration-1000 ease-in-out ${isTransitioning ? 'scale-105 opacity-90' : 'scale-100'
                         }`}
                 />
 
