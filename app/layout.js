@@ -1,5 +1,5 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
+import { Inter } from "next/font/google";
 import LoadingScreen from './components/LoadingScreen';
 
 
