@@ -1,12 +1,10 @@
 "use client";
 import React from 'react';
 import {
-    FaDiscord,
     FaGithub,
     FaTwitter,
     FaTwitch,
     FaYoutube,
-    FaFacebookF,
     FaInstagram,
     FaChevronRight,
     FaEnvelope,
@@ -38,20 +36,20 @@ const Footer = () => {
                             Your ultimate destination for gaming information, reviews, and community. Stay updated with the latest in gaming.
                         </p>
                         <div className="flex space-x-4 pt-4">
-                            <Link href="#" className="hover:text-white transition-colors">
+                            <Link href="https://twitter.com/Amanullah830" className="hover:text-white transition-colors">
                                 <FaTwitter size={20} />
                             </Link>
-                            <Link href="#" className="hover:text-white transition-colors">
-                                <FaDiscord size={20} />
-                            </Link>
-                            <Link href="#" className="hover:text-white transition-colors">
+                            <Link href="https://www.twitch.tv/amanullah057" className="hover:text-white transition-colors">
                                 <FaTwitch size={20} />
                             </Link>
-                            <Link href="#" className="hover:text-white transition-colors">
+                            <Link href="https://www.youtube.com/@aman0577" className="hover:text-white transition-colors">
                                 <FaYoutube size={20} />
                             </Link>
-                            <Link href="#" className="hover:text-white transition-colors">
+                            <Link href="https://www.instagram.com/aman_ullah057/" className="hover:text-white transition-colors">
                                 <FaInstagram size={20} />
+                            </Link>
+                            <Link href="https://github.com/Aman3899" className="hover:text-white transition-colors">
+                                <FaGithub size={20} />
                             </Link>
                         </div>
                     </div>
@@ -78,27 +76,27 @@ const Footer = () => {
                     <div>
                         <h3 className="text-xl font-bold text-white mb-4">Gaming Platforms</h3>
                         <div className="grid grid-cols-3 gap-4">
-                            <Link href="#" className="flex flex-col items-center group">
+                            <Link href="https://store.steampowered.com/" className="flex flex-col items-center group">
                                 <SiSteam className="h-6 w-6 group-hover:text-purple-400 transition-colors" />
                                 <span className="text-sm mt-1">Steam</span>
                             </Link>
-                            <Link href="#" className="flex flex-col items-center group">
+                            <Link href="https://store.epicgames.com/en-US/" className="flex flex-col items-center group">
                                 <SiEpicgames className="h-6 w-6 group-hover:text-purple-400 transition-colors" />
                                 <span className="text-sm mt-1">Epic</span>
                             </Link>
-                            <Link href="#" className="flex flex-col items-center group">
+                            <Link href="https://www.xbox.com/en-US/?msockid=2940f19f1bc662ec19cfe5d51a6b6318" className="flex flex-col items-center group">
                                 <SiXbox className="h-6 w-6 group-hover:text-purple-400 transition-colors" />
                                 <span className="text-sm mt-1">Xbox</span>
                             </Link>
-                            <Link href="#" className="flex flex-col items-center group">
+                            <Link href="https://www.playstation.com/en-us/" className="flex flex-col items-center group">
                                 <SiPlaystation className="h-6 w-6 group-hover:text-purple-400 transition-colors" />
                                 <span className="text-sm mt-1">PS5</span>
                             </Link>
-                            <Link href="#" className="flex flex-col items-center group">
+                            <Link href="https://www.nintendo.com/us/switch/" className="flex flex-col items-center group">
                                 <SiNintendoswitch className="h-6 w-6 group-hover:text-purple-400 transition-colors" />
                                 <span className="text-sm mt-1">Switch</span>
                             </Link>
-                            <Link href="#" className="flex flex-col items-center group">
+                            <Link href="https://www.riotgames.com/en" className="flex flex-col items-center group">
                                 <SiRiotgames className="h-6 w-6 group-hover:text-purple-400 transition-colors" />
                                 <span className="text-sm mt-1">Riot</span>
                             </Link>
@@ -111,7 +109,7 @@ const Footer = () => {
                         <div className="space-y-4">
                             <div className="flex items-center space-x-3">
                                 <FaMapMarkerAlt className="h-5 w-5 text-purple-500" />
-                                <span>123 Gaming Street, Chiniot, Pakistan</span>
+                                <span>Moh Insariyan, Chiniot, Pakistan</span>
                             </div>
                             <div className="flex items-center space-x-3">
                                 <FaPhone className="h-5 w-5 text-purple-500" />
@@ -119,7 +117,7 @@ const Footer = () => {
                             </div>
                             <div className="flex items-center space-x-3">
                                 <FaEnvelope className="h-5 w-5 text-purple-500" />
-                                <span>contact@gamevault.com</span>
+                                <span>m.amanullah0830@gmail.com</span>
                             </div>
                         </div>
                     </div>
@@ -134,9 +132,9 @@ const Footer = () => {
                             © 2024 GamesFlex. All rights reserved.
                         </div>
                         <div className="flex space-x-6 text-sm">
-                            <Link href="#" className="hover:text-purple-400 transition-colors">Privacy Policy</Link>
-                            <Link href="#" className="hover:text-purple-400 transition-colors">Terms of Service</Link>
-                            <Link href="#" className="hover:text-purple-400 transition-colors">Cookie Policy</Link>
+                            <Link href="/privacy_policy" className="hover:text-purple-400 transition-colors">Privacy Policy</Link>
+                            <Link href="/terms_condition" className="hover:text-purple-400 transition-colors">Terms of Service</Link>
+                            <Link href="/cookie_policy" className="hover:text-purple-400 transition-colors">Cookie Policy</Link>
                         </div>
                     </div>
                 </div>
