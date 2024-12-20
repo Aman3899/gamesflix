@@ -58,14 +58,20 @@ const Footer = () => {
                     <div>
                         <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
                         <ul className="space-y-2">
-                            {['Home', 'About', 'Games', 'News', 'Contact'].map((item) => (
-                                <li key={item}>
+                            {[
+                                {name:'Home', link: "/"}, 
+                                {name: 'About', link: "/"}, 
+                                {name: 'Games', link: "/"},
+                                {name: 'News', link: "/news"},
+                                {name: 'Contact', link: "/contact"}
+                            ].map((item) => (
+                                <li key={item.name}>
                                     <Link
-                                        href={`/${item.toLowerCase()}`}
+                                        href={item.link}
                                         className="flex items-center group"
                                     >
                                         <FaChevronRight className="h-3 w-3 text-purple-500 group-hover:text-purple-400 mr-2 transition-colors" />
-                                        <span className="hover:text-purple-400 transition-colors">{item}</span>
+                                        <span className="hover:text-purple-400 transition-colors">{item.name}</span>
                                     </Link>
                                 </li>
                             ))}

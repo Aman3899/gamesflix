@@ -22,7 +22,7 @@ const Navbar = () => {
                 {/* Desktop Links */}
                 <nav className="hidden md:flex space-x-6">
                     <Link href="/" className="hover:text-gray-300">About</Link>
-                    <Link href="/" className="hover:text-gray-300">Services</Link>
+                    <Link href="/news" className="hover:text-gray-300">News</Link>
                     <Link href="https://amanullah-portfolio.vercel.app/" className="hover:text-gray-300">Developer</Link>
                     <Link href="/contact" className="hover:text-gray-300">Contact</Link>
                 </nav>
@@ -45,7 +45,7 @@ const Navbar = () => {
                 <div className="md:hidden bg-gray-700 text-white">
                     <nav className="flex flex-col space-y-4 p-4">
                         <Link href="/" className="hover:text-gray-300">Home</Link>
-                        <Link href="/" className="hover:text-gray-300">About</Link>
+                        <Link href="/news" className="hover:text-gray-300">News</Link>
                         <Link href="https://amanullah-portfolio.vercel.app/" className="hover:text-gray-300">Developer</Link>
                         <Link href="/contact" className="hover:text-gray-300">Contact</Link>
                     </nav>
