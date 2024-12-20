@@ -7,6 +7,8 @@ import FeaturedSlider from "./components/FeaturedSlides";
 import Image from "next/image";
 import LoadingScreen from "./components/LoadingScreen";
 import Footer from "./components/Footer"
+import { Suspense } from "react";
+import { useSearchParams } from 'next/navigation';
 
 
 const API_KEY = "bb957792ca944879b0eb28b31ed414ef";
@@ -21,6 +23,8 @@ const GamingPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [tempSearch, setTempSearch] = useState("");
+
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     // Fetch data from RAWG API for the current page
@@ -119,130 +123,119 @@ const GamingPage = () => {
   };
 
   return (
-    <div className="bg-gray-900 min-h-screen pb-10">
+    <Suspense fallback={<div>Loading...</div>}>
 
-      <Navbar />
-      <FeaturedSlider />
+      <div className="bg-gray-900 min-h-screen pb-10">
 
-      {/* <div className="flex justify-center w-full mb-16 max-sm:px-2 max-sm:mb-3">
-        <input
-          type="text"
-          placeholder="Search for games..."
-          value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-            setCurrentPage(1); // Reset to page 1 on search
-          }}
-          className="w-full max-w-lg px-4 py-2 text-gray-900 rounded-lg focus:outline-none"
-        />
-      </div> */}
+        <Navbar />
+        <FeaturedSlider />
 
-
-      <div className="relative w-full max-w-4xl mx-auto mb-16 px-4 max-sm:mb-3">
-        <div className={`transition-all duration-300 ${showSearch ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none'}`}>
-          <div className="relative flex items-center">
-            <input
-              type="text"
-              placeholder="Search for games..."
-              value={tempSearch}
-              onChange={(e) => setTempSearch(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
+        <div className="relative w-full max-w-4xl mx-auto mb-16 px-4 max-sm:mb-3">
+          <div className={`transition-all duration-300 ${showSearch ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none'}`}>
+            <div className="relative flex items-center">
+              <input
+                type="text"
+                placeholder="Search for games..."
+                value={tempSearch}
+                onChange={(e) => setTempSearch(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    setSearchQuery(tempSearch);
+                    setCurrentPage(1);
+                  }
+                }}
+                className="w-full px-6 py-4 text-lg text-gray-900 bg-white rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 pr-12"
+              />
+              <button
+                onClick={() => {
                   setSearchQuery(tempSearch);
                   setCurrentPage(1);
-                }
-              }}
-              className="w-full px-6 py-4 text-lg text-gray-900 bg-white rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 pr-12"
-            />
-            <button
-              onClick={() => {
-                setSearchQuery(tempSearch);
-                setCurrentPage(1);
-              }}
-              className="absolute right-4 p-2 text-gray-600 hover:text-purple-600 transition-colors duration-300"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                }}
+                className="absolute right-4 p-2 text-gray-600 hover:text-purple-600 transition-colors duration-300"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
+
+          {/* Search Toggle Button */}
+          <button
+            onClick={() => setShowSearch(!showSearch)}
+            className={`fixed top-4 right-4 z-50 p-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white shadow-lg transform transition-all duration-300 ${showSearch ? 'rotate-45' : 'rotate-0'}`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={showSearch ? "M6 18L18 6M6 6l12 12" : "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"}
+              />
+            </svg>
+          </button>
         </div>
 
-        {/* Search Toggle Button */}
-        <button
-          onClick={() => setShowSearch(!showSearch)}
-          className={`fixed top-4 right-4 z-50 p-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white shadow-lg transform transition-all duration-300 ${showSearch ? 'rotate-45' : 'rotate-0'}`}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d={showSearch ? "M6 18L18 6M6 6l12 12" : "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"}
-            />
-          </svg>
-        </button>
-      </div>
 
-
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <>
-          <h1 className="text-3xl font-bold text-center text-white pb-10 max-sm:pb-4">Games</h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 px-6">
-            {games.map((game) => (
-              <Link href={`/game/${game.id}`} key={game.id}>
-                <div
-                  key={game.id}
-                  className="relative group overflow-hidden rounded-lg shadow-lg"
-                >
-                  {game.background_image ? (
-                    <Image
-                      width={1920}
-                      height={1080}
-                      src={game.background_image}
-                      alt={game.name}
-                      className="w-full h-48 object-cover transform group-hover:scale-110 transition duration-500"
-                    />
-                  ) : (
-                    // Fallback image or placeholder when no background_image is available
-                    <div className="w-full h-48 bg-gray-700 flex items-center justify-center">
-                      <span className="text-gray-400">No image available</span>
+        {loading ? (
+          <LoadingScreen />
+        ) : (
+          <>
+            <h1 className="text-3xl font-bold text-center text-white pb-10 max-sm:pb-4">Games</h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 px-6">
+              {games.map((game) => (
+                <Link href={`/game/${game.id}`} key={game.id}>
+                  <div
+                    key={game.id}
+                    className="relative group overflow-hidden rounded-lg shadow-lg"
+                  >
+                    {game.background_image ? (
+                      <Image
+                        width={1920}
+                        height={1080}
+                        src={game.background_image}
+                        alt={game.name}
+                        className="w-full h-48 object-cover transform group-hover:scale-110 transition duration-500"
+                      />
+                    ) : (
+                      // Fallback image or placeholder when no background_image is available
+                      <div className="w-full h-48 bg-gray-700 flex items-center justify-center">
+                        <span className="text-gray-400">No image available</span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-500 flex-col">
+                      <h2 className="text-white text-2xl font-bold">{game.name}</h2>
+                      <p className="text-gray-300 mt-2">
+                        {game.genres.map((genre) => genre.name).join(", ")}
+                      </p>
                     </div>
-                  )}
-                  <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-500 flex-col">
-                    <h2 className="text-white text-2xl font-bold">{game.name}</h2>
-                    <p className="text-gray-300 mt-2">
-                      {game.genres.map((genre) => genre.name).join(", ")}
-                    </p>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-          <div className="flex justify-center mt-8 space-x-2">{renderPagination()}</div>
-        </>
-      )}
-      <Footer />
-    </div>
+                </Link>
+              ))}
+            </div>
+            <div className="flex justify-center mt-8 space-x-2">{renderPagination()}</div>
+          </>
+        )}
+        <Footer />
+      </div>
+    </Suspense>
   );
 };
 
