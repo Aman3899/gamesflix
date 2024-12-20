@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import FeaturedSlider from "./components/FeaturedSlides";
 import Image from "next/image";
 import LoadingScreen from "./components/LoadingScreen";
+import Footer from "./components/Footer"
 
 
 const API_KEY = "bb957792ca944879b0eb28b31ed414ef";
@@ -240,6 +241,7 @@ const GamingPage = () => {
           <div className="flex justify-center mt-8 space-x-2">{renderPagination()}</div>
         </>
       )}
+      <Footer />
     </div>
   );
 };

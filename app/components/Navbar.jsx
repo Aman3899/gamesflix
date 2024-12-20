@@ -21,10 +21,10 @@ const Navbar = () => {
 
                 {/* Desktop Links */}
                 <nav className="hidden md:flex space-x-6">
-                    <a href="/" className="hover:text-gray-300">Home</a>
-                    <a href="/" className="hover:text-gray-300">About</a>
-                    <a href="/" className="hover:text-gray-300">Services</a>
-                    <a href="/" className="hover:text-gray-300">Contact</a>
+                    <Link href="/" className="hover:text-gray-300">About</Link>
+                    <Link href="/" className="hover:text-gray-300">Services</Link>
+                    <Link href="https://amanullah-portfolio.vercel.app/" className="hover:text-gray-300">Developer</Link>
+                    <Link href="/contact" className="hover:text-gray-300">Contact</Link>
                 </nav>
 
                 {/* Mobile Menu Button */}
@@ -44,10 +44,10 @@ const Navbar = () => {
             {isOpen && (
                 <div className="md:hidden bg-gray-700 text-white">
                     <nav className="flex flex-col space-y-4 p-4">
-                        <a href="/" className="hover:text-gray-300">Home</a>
-                        <a href="/" className="hover:text-gray-300">About</a>
-                        <a href="/" className="hover:text-gray-300">Services</a>
-                        <a href="/" className="hover:text-gray-300">Contact</a>
+                        <Link href="/" className="hover:text-gray-300">Home</Link>
+                        <Link href="/" className="hover:text-gray-300">About</Link>
+                        <Link href="https://amanullah-portfolio.vercel.app/" className="hover:text-gray-300">Developer</Link>
+                        <Link href="/contact" className="hover:text-gray-300">Contact</Link>
                     </nav>
                 </div>
             )}

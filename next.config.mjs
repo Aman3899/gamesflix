@@ -4,13 +4,7 @@ const nextConfig = {
     images: {
       domains: ['media.rawg.io'], // Add external image domains here
     },
-    theme: {
-    extend: {
-      animation: {
-        'spin-slow': 'spin 3s linear infinite',
-      },
-    },
-  },
+    
 };
 
 export default nextConfig;
