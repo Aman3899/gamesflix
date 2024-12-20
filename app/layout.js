@@ -1,7 +1,5 @@
 import "./globals.css";
-import { Suspense } from "react";
 import { Inter } from "next/font/google";
-import LoadingScreen from './components/LoadingScreen';
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,9 +13,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Suspense>
-          <LoadingScreen />
-        </Suspense>
         {children}
       </body>
     </html>
