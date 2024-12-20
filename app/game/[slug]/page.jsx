@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaBackspace } from "react-icons/fa";
+import Image from "next/image";
+import Link from "next/link";
 
 
 const GameDetailPage = ({ params }) => {
@@ -49,7 +51,9 @@ const GameDetailPage = ({ params }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                     {/* Left Column - Image and Video */}
                     <div className="flex justify-center">
-                        <img
+                        <Image
+                            width={1920}
+                            height={1080}
                             src={game.background_image}
                             alt={game.name}
                             className="rounded-lg shadow-lg w-full max-w-lg"
@@ -69,18 +73,20 @@ const GameDetailPage = ({ params }) => {
                         <div className="mt-6">
                             <h3 className="text-xl font-semibold mb-2">Download Links:</h3>
                             <div className="flex gap-4">
-                                <a
-                                    href="#"
-                                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
+                                <Link
+                                    href={`https://fitgirl-repacks.site/${game.name}`.replace(/ /g, "-").toLowerCase() || "/"}
+                                    className="px-6 py-3 max-sm:px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
+                                    target="_blank"
                                 >
-                                    Download 1
-                                </a>
-                                <a
-                                    href="#"
-                                    className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300"
+                                    Fitgirl-Repacks
+                                </Link>
+                                <Link
+                                    href={`https://dodi-repacks.site/${game.name}`.replace(/ /g, "-").toLowerCase() || "/"}
+                                    className="px-6 py-3 max-sm:px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300"
+                                    target="_blank"
                                 >
-                                    Download 2
-                                </a>
+                                    DODI-Repacks
+                                </Link>
                             </div>
                         </div>
 
@@ -127,7 +133,7 @@ const GameDetailPage = ({ params }) => {
                     </div>
                 </div>
 
-                <div className="mt-6">
+                <div className="mt-6 text-white">
                     <h3 className="text-xl font-semibold mb-2">System Requirements</h3>
                     {game.system_requirements ? (
                         <div>

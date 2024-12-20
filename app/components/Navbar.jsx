@@ -10,7 +10,7 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <header className="bg-gray-800 text-white m-0 top-0 p-0">
+        <header className="bg-gray-800 text-white px-2 max-sm:px-4">
             <div className="container mx-auto flex items-center justify-between">
                 {/* Logo/Name */}
                 <Link href="/" className="text-2xl font-bold">

@@ -1,6 +1,9 @@
 "use client";
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
+
+
 
 const FeaturedSlider = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -433,6 +436,22 @@ const FeaturedSlider = () => {
         }
     };
 
+    let router = useRouter();
+
+
+    const getGameName = (game) => {
+        if (!game) return '';
+        if ( game == "PES 2023") { return "327269"; }
+        if ( game == "Assassin's Creed Odyssey" ) { return "58616"; }
+        if ( game == "Assassin's Creed Origins" ) { return "28153"; }
+        if ( game == "GTA IV" ) { return "4459"; }
+        return game
+            .replace(/\s+/g, '-')  // Replace spaces with hyphens
+            .replace(/:/g, '')     // Remove colons
+            .toLowerCase();        // Convert to lowercase
+    }
+
+
     return (
         <div className="relative w-full h-[600px] max-sm:h-[250px] overflow-hidden bg-gray-900 mb-16 max-sm:mb-8">
             {/* Main Slide */}
@@ -461,7 +480,7 @@ const FeaturedSlider = () => {
                         <p className="text-lg md:text-xl text-gray-200 max-w-2xl max-sm:text-xs">
                             {slides[activeIndex].description}
                         </p>
-                        <button className="mt-4 px-8 py-3 bg-white text-gray-900 rounded-lg font-semibold 
+                        <button onClick={() => { router.push(`/game/${getGameName(slides[activeIndex].title)}`) }} className="mt-4 px-8 py-3 bg-white text-gray-900 rounded-lg font-semibold 
                             transform transition hover:scale-105 hover:bg-gray-100 active:scale-95 max-sm:px-5 max-sm:py-2
                                 max-sm:text-xs">
                             {slides[activeIndex].buttonText}
