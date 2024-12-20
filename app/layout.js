@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Suspense } from "react";
 import { Inter } from "next/font/google";
 import LoadingScreen from './components/LoadingScreen';
 
@@ -14,7 +15,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <LoadingScreen />
+        <Suspense>
+          <LoadingScreen />
+        </Suspense>
         {children}
       </body>
     </html>
