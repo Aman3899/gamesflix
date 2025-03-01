@@ -1,14 +1,14 @@
+
+
 "use client";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
-
-
+import { motion } from 'framer-motion'; // Import framer-motion for animations
 
 const FeaturedSlider = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
-
 
     const slides = [
         {
@@ -406,7 +406,6 @@ const FeaturedSlider = () => {
         }
     ];
 
-
     // Auto-slide effect
     useEffect(() => {
         const timer = setInterval(() => {
@@ -438,87 +437,94 @@ const FeaturedSlider = () => {
 
     let router = useRouter();
 
-
     const getGameName = (game) => {
         if (!game) return '';
-        if ( game == "PES 2023") { return "327269"; }
-        if ( game == "Assassin's Creed Odyssey" ) { return "58616"; }
-        if ( game == "Assassin's Creed Origins" ) { return "28153"; }
-        if ( game == "GTA IV" ) { return "4459"; }
+        if (game == "PES 2023") { return "327269"; }
+        if (game == "Assassin's Creed Odyssey") { return "58616"; }
+        if (game == "Assassin's Creed Origins") { return "28153"; }
+        if (game == "GTA IV") { return "4459"; }
         return game
             .replace(/\s+/g, '-')  // Replace spaces with hyphens
             .replace(/:/g, '')     // Remove colons
             .toLowerCase();        // Convert to lowercase
     }
 
+    const slideVariants = {
+        initial: { opacity: 0, x: 100 },
+        animate: { opacity: 1, x: 0, transition: { duration: 1, ease: "easeInOut" } },
+        exit: { opacity: 0, x: -100, transition: { duration: 0.75, ease: "easeInOut" } }
+    };
+
 
     return (
-        <div className="relative w-full h-[600px] max-sm:h-[250px] overflow-hidden bg-gray-900 mb-16 max-sm:mb-8">
+        <div className="relative w-full h-[650px] max-sm:h-[300px] overflow-hidden bg-gray-900 mb-16 max-sm:mb-8 rounded-2xl shadow-2xl">
             {/* Main Slide */}
-            <div className="relative h-full">
+            <motion.div
+                key={activeIndex}
+                variants={slideVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="relative h-full"
+            >
                 <Image
                     width={1920}
                     height={1080}
                     src={slides[activeIndex].imageUrl}
                     alt={slides[activeIndex].title}
-                    className={`w-full h-full object-fit transform transition-transform duration-1000 ease-in-out ${isTransitioning ? 'scale-105 opacity-90' : 'scale-100'
-                        }`}
+                    className={`w-full h-full object-cover transform transition-transform duration-700 ease-in-out scale-100`}  //Object Cover and slight scale on hover removed
                 />
 
                 {/* Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-r ${slides[activeIndex].bgColor} opacity-40 
-                    transition-opacity duration-1000 ease-in-out ${isTransitioning ? 'opacity-60' : 'opacity-40'}`} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <div className={`absolute inset-0 bg-gradient-to-r ${slides[activeIndex].bgColor} opacity-60`} />  {/* Increased opacity for more impact */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
 
                 {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-16 max-w-7xl mx-auto">
-                    <div className={`space-y-4 transform transition-all duration-1000 ease-in-out ${isTransitioning ? 'translate-y-4 opacity-0' : 'translate-y-0 opacity-100'
-                        }`}>
-                        <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight max-sm:text-xl">
+                <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-20 max-w-7xl mx-auto">
+                    <div className="space-y-6"> {/* increased spacing */}
+                        <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight drop-shadow-lg max-sm:text-3xl">  {/* Increased font size, drop shadow, and bold font */}
                             {slides[activeIndex].title}
                         </h1>
-                        <p className="text-lg md:text-xl text-gray-200 max-w-2xl max-sm:text-xs">
+                        <p className="text-xl md:text-2xl text-gray-300 max-w-3xl drop-shadow-md max-sm:text-sm">  {/* Larger text and drop shadow */}
                             {slides[activeIndex].description}
                         </p>
-                        <button onClick={() => { router.push(`/game/${getGameName(slides[activeIndex].title)}`) }} className="mt-4 px-8 py-3 bg-white text-gray-900 rounded-lg font-semibold 
-                            transform transition hover:scale-105 hover:bg-gray-100 active:scale-95 max-sm:px-5 max-sm:py-2
-                                max-sm:text-xs">
+                        <button
+                            onClick={() => { router.push(`/game/${getGameName(slides[activeIndex].title)}`) }}
+                            className="mt-6 px-10 py-4 bg-white text-gray-900 rounded-full font-semibold shadow-lg hover:bg-gray-200 active:scale-95 transition-all duration-200 max-sm:px-6 max-sm:py-3 max-sm:text-xs"> {/* More padding, rounded button, increased shadow, transition and other hover effects */}
                             {slides[activeIndex].buttonText}
                         </button>
                     </div>
                 </div>
 
-                {/* Navigation Arrows */}
+                {/* Navigation Arrows - More Stylish */}
                 <button
                     onClick={prevSlide}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white
-                    hover:bg-black/70 transition-all transform hover:scale-110 max-sm:p-1 max-sm:left-1"
+                    className="absolute left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/40 text-white hover:bg-black/70 transition-all transform hover:scale-110 max-sm:p-2 max-sm:left-2"
                 >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
                 <button
                     onClick={nextSlide}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white
-                    hover:bg-black/70 transition-all transform hover:scale-110 max-sm:p-1 max-sm:right-1"
+                    className="absolute right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/40 text-white hover:bg-black/70 transition-all transform hover:scale-110 max-sm:p-2 max-sm:right-2"
                 >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
 
-                {/* Progress Bar */}
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-800">
+                {/* Progress Bar - More subtle */}
+                <div className="absolute bottom-0 left-0 w-full h-1.5 bg-gray-900/70">
                     <div
-                        className="h-full bg-white transition-all ease-linear"
+                        className="h-full bg-gradient-to-r from-green-400 to-blue-500 transition-all ease-linear"
                         style={{
                             width: `${isTransitioning ? '0%' : '100%'}`,
                             animation: `${isTransitioning ? '' : 'progressBar 5000ms linear infinite'}`
                         }}
                     />
                 </div>
-            </div>
+            </motion.div>
 
             <style jsx>{`
                 @keyframes progressBar {
