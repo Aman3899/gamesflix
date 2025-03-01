@@ -15,7 +15,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^4.12.0",
-    "lucide-react": "0.278.0"
+    "lucide-react": "0.278.0",
+    "framer-motion": "^4.1.17"
   },
   "devDependencies": {
     "eslint": "^8",
