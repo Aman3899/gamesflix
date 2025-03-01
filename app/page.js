@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 import Link from "next/link";
 import Navbar from "./components/Navbar";
@@ -26,9 +26,9 @@ const LoadingScreen = () => (
     <p className="mt-6 text-lg font-medium text-purple-400">Loading amazing games...</p>
     <div className="mt-4 flex space-x-2">
       {[1, 2, 3].map((i) => (
-        <div 
-          key={i} 
-          className="w-3 h-3 rounded-full bg-purple-600 animate-bounce" 
+        <div
+          key={i}
+          className="w-3 h-3 rounded-full bg-purple-600 animate-bounce"
           style={{ animationDelay: `${i * 0.2}s` }}
         ></div>
       ))}
@@ -61,24 +61,24 @@ const GameCard = ({ game, isRecent = false }) => (
             <IoGameControllerOutline className="text-4xl text-gray-400" />
           </div>
         )}
-        
+
         {isRecent && (
           <div className="absolute top-2 left-2 bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center">
             <FiClock className="mr-1" /> Recent
           </div>
         )}
-        
+
         {game.metacritic && (
           <div className={`absolute top-2 right-2 ${
-            game.metacritic >= 80 ? 'bg-green-600' : 
-            game.metacritic >= 60 ? 'bg-yellow-600' : 
-            'bg-red-600'
+            game.metacritic >= 80 ? 'bg-green-600' :
+              game.metacritic >= 60 ? 'bg-yellow-600' :
+                'bg-red-600'
           } text-white text-xs font-bold px-2 py-1 rounded-full`}>
             {game.metacritic}
           </div>
         )}
       </div>
-      
+
       <div className="p-4 bg-gray-800 h-28">
         <h2 className="text-white text-lg font-bold line-clamp-1 group-hover:text-purple-400 transition-colors duration-300">
           {game.name}
@@ -96,7 +96,7 @@ const GameCard = ({ game, isRecent = false }) => (
           </div>
         </div>
       </div>
-      
+
       <div className="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
         <span className="px-4 py-2 bg-purple-600 text-white font-medium rounded-lg transform transition-transform duration-300 group-hover:scale-110">
           View Details
@@ -114,10 +114,11 @@ const GamingPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
-  const [showSearch, setShowSearch] = useState(false);
   const [tempSearch, setTempSearch] = useState("");
   const [activeTab, setActiveTab] = useState("all"); // 'all' or 'recent'
   const [searchHistory, setSearchHistory] = useState([]);
+  const searchInputRef = useRef(null);
+
 
   const searchParams = useSearchParams();
 
@@ -125,7 +126,7 @@ const GamingPage = () => {
   const fetchGames = useCallback(async (isRecent = false) => {
     const loadingState = isRecent ? setLoadingRecent : setLoading;
     loadingState(true);
-    
+
     try {
       const response = await axios.get(API_URL, {
         params: {
@@ -137,14 +138,14 @@ const GamingPage = () => {
           dates: isRecent ? "2023-01-01,2025-12-31" : undefined,
         },
       });
-      
+
       if (isRecent) {
         setRecentGames(response.data.results);
       } else {
         setGames(response.data.results);
         setTotalPages(Math.ceil(response.data.count / 21));
       }
-      
+
       loadingState(false);
     } catch (error) {
       console.error(`Error fetching ${isRecent ? "recent" : ""} games:`, error);
@@ -167,6 +168,9 @@ const GamingPage = () => {
     setSearchQuery(tempSearch);
     setCurrentPage(1);
     setActiveTab("all");
+    if (searchInputRef.current) {
+      searchInputRef.current.blur(); // Hide keyboard on mobile
+    }
   };
 
   const handlePageChange = (page) => {
@@ -253,77 +257,63 @@ const GamingPage = () => {
 
         {/* Enhanced Search Bar */}
         <div className="relative w-full max-w-4xl mx-auto mb-10 px-4">
-          <AnimatePresence>
-            {showSearch && (
-              <motion.div 
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="bg-gray-800 p-6 rounded-2xl shadow-2xl"
-              >
-                <div className="relative flex items-center">
-                  <FiSearch className="absolute left-4 text-gray-400 text-xl" />
-                  <input
-                    type="text"
-                    placeholder="Search for games..."
-                    value={tempSearch}
-                    onChange={(e) => setTempSearch(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') handleSearch();
-                    }}
-                    className="w-full pl-12 pr-12 py-4 text-lg text-white bg-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
-                  />
-                  {tempSearch && (
-                    <button
-                      onClick={clearSearch}
-                      className="absolute right-16 p-2 text-gray-400 hover:text-white transition-colors duration-300"
-                    >
-                      <FiX className="h-5 w-5" />
-                    </button>
-                  )}
-                  <button
-                    onClick={handleSearch}
-                    className="absolute right-4 p-2 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-300"
-                  >
-                    <FiSearch className="h-5 w-5" />
-                  </button>
-                </div>
-                
-                {/* Search History */}
-                {searchHistory.length > 0 && (
-                  <div className="mt-4">
-                    <p className="text-xs text-gray-400 mb-2">Recent searches:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {searchHistory.map((term, index) => (
-                        <button
-                          key={index}
-                          onClick={() => {
-                            setTempSearch(term);
-                            setSearchQuery(term);
-                            setCurrentPage(1);
-                          }}
-                          className="px-3 py-1 text-xs bg-gray-700 hover:bg-gray-600 text-white rounded-full transition duration-300"
-                        >
-                          {term}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
 
-          {/* Search Toggle Button */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowSearch(!showSearch)}
-            className="fixed top-20 right-4 z-50 p-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white shadow-lg transition-all duration-300"
+          <div
+            className="bg-gray-800 p-4 rounded-2xl shadow-2xl"
           >
-            {showSearch ? <FiX className="h-6 w-6" /> : <FiSearch className="h-6 w-6" />}
-          </motion.button>
+            <div className="relative flex items-center">
+              <FiSearch className="absolute left-4 text-gray-400 text-xl" />
+              <input
+                ref={searchInputRef}
+                type="text"
+                placeholder="Search for games..."
+                value={tempSearch}
+                onChange={(e) => setTempSearch(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') handleSearch();
+                }}
+                className="w-full pl-12 pr-12 py-3 text-lg text-white bg-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+              />
+              {tempSearch && (
+                <button
+                  onClick={clearSearch}
+                  className="absolute right-16 p-2 text-gray-400 hover:text-white transition-colors duration-300"
+                >
+                  <FiX className="h-5 w-5" />
+                </button>
+              )}
+              <button
+                onClick={handleSearch}
+                className="absolute right-4 p-2 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-300"
+              >
+                <FiSearch className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Search History */}
+            {searchHistory.length > 0 && (
+              <div className="mt-4">
+                <p className="text-xs text-gray-400 mb-2">Recent searches:</p>
+                <div className="flex flex-wrap gap-2">
+                  {searchHistory.map((term, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setTempSearch(term);
+                        setSearchQuery(term);
+                        setCurrentPage(1);
+                      }}
+                      className="px-3 py-1 text-xs bg-gray-700 hover:bg-gray-600 text-white rounded-full transition duration-300"
+                    >
+                      {term}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+
         </div>
 
         {/* Content */}
@@ -334,8 +324,8 @@ const GamingPage = () => {
               <button
                 onClick={() => setActiveTab("all")}
                 className={`px-6 py-3 rounded-lg font-medium transition duration-300 flex items-center ${
-                  activeTab === "all" 
-                    ? "bg-purple-600 text-white" 
+                  activeTab === "all"
+                    ? "bg-purple-600 text-white"
                     : "text-gray-400 hover:text-white"
                 }`}
               >
@@ -344,8 +334,8 @@ const GamingPage = () => {
               <button
                 onClick={() => setActiveTab("recent")}
                 className={`px-6 py-3 rounded-lg font-medium transition duration-300 flex items-center ${
-                  activeTab === "recent" 
-                    ? "bg-purple-600 text-white" 
+                  activeTab === "recent"
+                    ? "bg-purple-600 text-white"
                     : "text-gray-400 hover:text-white"
                 }`}
               >
@@ -359,7 +349,7 @@ const GamingPage = () => {
             <div className="mb-8 text-center">
               <p className="text-white text-xl">
                 {activeTab === "all" ? (games.length ? `Showing results for "${searchQuery}"` : `No results found for "${searchQuery}"`) :
-                 (recentGames.length ? `Recent games matching "${searchQuery}"` : `No recent games match "${searchQuery}"`)}
+                  (recentGames.length ? `Recent games matching "${searchQuery}"` : `No recent games match "${searchQuery}"`)}
               </p>
               <button
                 onClick={clearSearch}
@@ -384,7 +374,7 @@ const GamingPage = () => {
                   <LoadingScreen />
                 ) : (
                   <>
-                    <motion.div 
+                    <motion.div
                       layout
                       className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"
                     >
@@ -392,7 +382,7 @@ const GamingPage = () => {
                         <GameCard key={game.id} game={game} />
                       ))}
                     </motion.div>
-                    
+
                     {games.length > 0 && (
                       <div className="flex justify-center mt-10 overflow-x-auto py-4">
                         {renderPagination()}
@@ -412,7 +402,7 @@ const GamingPage = () => {
                 {loadingRecent ? (
                   <LoadingScreen />
                 ) : (
-                  <motion.div 
+                  <motion.div
                     layout
                     className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"
                   >

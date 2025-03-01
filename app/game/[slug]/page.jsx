@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
     FaBackspace,
     FaGlobe,
@@ -23,6 +23,8 @@ import {
     FaMemory,
     FaDesktop,
     FaHdd,
+    FaTruck,
+    FaCheckCircle,
 } from "react-icons/fa";
 
 // Component for rendering system requirements in raw form
@@ -47,6 +49,9 @@ const GameDetailPage = ({ params }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const id = params.slug;
+    const [showModal, setShowModal] = useState(false);
+    const [requestSent, setRequestSent] = useState(false);
+    const [userDetails, setUserDetails] = useState({ name: '', address: '', phone: '' });
 
     useEffect(() => {
         if (id) {
@@ -79,6 +84,42 @@ const GameDetailPage = ({ params }) => {
             textShadow: ["0 0 5px rgba(99, 102, 241, 0.5)", "0 0 15px rgba(99, 102, 241, 0.8)", "0 0 5px rgba(99, 102, 241, 0.5)"],
             transition: { duration: 1.5, repeat: Infinity, repeatType: "reverse" },
         },
+    };
+
+    const modalVariants = {
+        initial: { opacity: 0, y: -50 },
+        animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+        exit: { opacity: 0, y: -50, transition: { duration: 0.3, ease: "easeIn" } },
+    };
+
+    const buttonVariants = {
+        initial: { scale: 1 },
+        loading: { scale: 0.95, opacity: 0.7, transition: { duration: 0.3 } },
+        success: { scale: 1.1, opacity: 1, backgroundColor: "#4ade80", color: "#1e293b", transition: { duration: 0.5, ease: "easeOut" } },
+        disabled: { opacity: 0.5, cursor: "not-allowed" },
+    };
+
+    const handleRequestGame = () => {
+        setShowModal(true);
+    };
+
+    const handleInputChange = (e) => {
+        setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmitRequest = () => {
+        // Basic validation
+        if (!userDetails.name || !userDetails.address || !userDetails.phone) {
+            alert("Please fill in all details.");
+            return;
+        }
+
+        // Simulate request
+        setTimeout(() => {
+            setShowModal(false);
+            setRequestSent(true);
+            setUserDetails({ name: '', address: '', phone: '' });
+        }, 1500); // Simulate API call time
     };
 
     if (loading) {
@@ -131,7 +172,7 @@ const GameDetailPage = ({ params }) => {
                         className="text-4xl text-indigo-400 cursor-pointer hover:text-indigo-500 transition-colors duration-200"
                         onClick={() => window.history.back()}
                     />
-                    <h1 className="flex-1 text-4xl sm:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
+                    <h1 className="flex-1 text-4xl max-sm:text-2xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
                         {game.name}
                     </h1>
                 </div>
@@ -335,9 +376,103 @@ const GameDetailPage = ({ params }) => {
                                 </Link>
                             </div>
                         </div>
+
+                        {/* Request Game at Doorstep Button */}
+                        <motion.button
+                            variants={buttonVariants}
+                            initial="initial"
+                            animate={requestSent ? "success" : "initial"}
+                            whileHover="hover"
+                            disabled={requestSent}
+                            onClick={handleRequestGame}
+                            className="w-full py-4 max-sm:text-xs bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white rounded-full shadow-lg font-semibold transition-all duration-300 flex items-center justify-center space-x-2"
+                        >
+                            {requestSent ? (
+                                <>
+                                    <FaCheckCircle className="text-xl" />
+                                    <span>Request Sent! Our team will contact you soon.</span>
+                                </>
+                            ) : (
+                                <>
+                                    <FaTruck className="text-xl" />
+                                    <span>Request Game at Doorstep</span>
+                                </>
+                            )}
+                        </motion.button>
                     </div>
                 </div>
             </div>
+
+            {/* Request Game Modal */}
+            <AnimatePresence>
+                {showModal && (
+                    <motion.div
+                        className="fixed inset-0 bg-gray-900 bg-opacity-70 z-50 flex items-center justify-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <motion.div
+                            className="bg-gray-800 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4"
+                            variants={modalVariants}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                        >
+                            <h2 className="text-3xl font-semibold text-green-400 mb-6 text-center">Request Game Delivery</h2>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-gray-300 text-sm font-medium mb-2">Your Name:</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={userDetails.name}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-700 text-white rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                        placeholder="Enter your name"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-300 text-sm font-medium mb-2">Delivery Address:</label>
+                                    <textarea
+                                        name="address"
+                                        value={userDetails.address}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-700 text-white rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                        placeholder="Enter your full address"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-300 text-sm font-medium mb-2">Phone Number:</label>
+                                    <input
+                                        type="tel"
+                                        name="phone"
+                                        value={userDetails.phone}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-700 text-white rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                        placeholder="Enter your phone number"
+                                    />
+                                </div>
+                            </div>
+                            <div className="mt-8 flex justify-end space-x-4">
+                                <button
+                                    onClick={() => setShowModal(false)}
+                                    className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-xl transition duration-300"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleSubmitRequest}
+                                    className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl transition duration-300"
+                                >
+                                    Submit Request
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 };
