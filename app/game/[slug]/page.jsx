@@ -1,260 +1,345 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaBackspace, FaCheckCircle, FaExclamationTriangle, FaGlobe, FaCalendarAlt, FaGamepad, FaStar } from "react-icons/fa"; // More Icons
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import {
+  FaBackspace,
+  FaGlobe,
+  FaCalendarAlt,
+  FaGamepad,
+  FaStar,
+  FaUsers,
+  FaTag,
+  FaStore,
+  FaCode,
+  FaReddit,
+  FaTwitch,
+  FaYoutube,
+  FaTrophy,
+  FaWindows,
+  FaMicrochip,
+  FaMemory,
+  FaDesktop,
+  FaHdd,
+} from "react-icons/fa";
+
+// Component for rendering system requirements in raw form
+const SystemRequirementsSection = ({ title, requirements }) => {
+  return (
+    <motion.div
+      className="p-6 rounded-xl shadow-lg bg-gray-800/70 backdrop-blur-sm"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+    >
+      <h4 className="text-xl font-semibold text-yellow-300 mb-3">{title}</h4>
+      <p className="text-gray-300 text-sm sm:text-base leading-relaxed whitespace-pre-wrap">
+        {requirements || "N/A"}
+      </p>
+    </motion.div>
+  );
+};
 
 const GameDetailPage = ({ params }) => {
-    const [game, setGame] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const id = params.slug;
+  const [game, setGame] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const id = params.slug;
 
-    useEffect(() => {
-        if (id) {
-            const fetchGameDetails = async () => {
-                setLoading(true);
-                try {
-                    const response = await axios.get(`https://api.rawg.io/api/games/${id}`, {
-                        params: {
-                            key: "bb957792ca944879b0eb28b31ed414ef", // RAWG API key
-                        },
-                    });
-                    setGame(response.data);
-                    setLoading(false);
-                } catch (error) {
-                    setError("Error fetching game details.");
-                    setLoading(false);
-                }
-            };
-
-            fetchGameDetails();
+  useEffect(() => {
+    if (id) {
+      const fetchGameDetails = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get(`https://api.rawg.io/api/games/${id}`, {
+            params: {
+              key: "bb957792ca944879b0eb28b31ed414ef",
+            },
+          });
+          setGame(response.data);
+          setLoading(false);
+        } catch (error) {
+          setError("Error fetching game details.");
+          setLoading(false);
         }
-    }, [id]);
+      };
+      fetchGameDetails();
+    }
+  }, [id]);
 
-    if (loading) return <div className="text-white text-center text-2xl py-20">Loading...</div>;
-    if (error) return <div className="text-red-500 text-center text-2xl py-20">{error}</div>;
+  const fadeIn = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.75, ease: "easeInOut" } },
+  };
 
-    const fadeIn = {
-        initial: { opacity: 0, y: 20 },
-        animate: { opacity: 1, y: 0, transition: { duration: 0.75, ease: "easeInOut" } },
-    };
+  const glowVariants = {
+    animate: {
+      textShadow: ["0 0 5px rgba(99, 102, 241, 0.5)", "0 0 15px rgba(99, 102, 241, 0.8)", "0 0 5px rgba(99, 102, 241, 0.5)"],
+      transition: { duration: 1.5, repeat: Infinity, repeatType: "reverse" },
+    },
+  };
 
-    const SystemRequirementItem = ({ icon, children }) => (
-        <li className="flex items-center space-x-2">
-            {icon}
-            <span>{children}</span>
-        </li>
-    );
-
+  if (loading) {
     return (
+      <div className="fixed inset-0 flex items-center justify-center bg-gray-900 z-50">
         <motion.div
-            variants={fadeIn}
-            initial="initial"
-            animate="animate"
-            className="bg-gray-900 min-h-screen py-12 text-white"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="relative flex flex-col items-center"
         >
-            <div className="max-w-7xl mx-auto px-6">
-                {/* Back Button and Title */}
-                <div className="flex items-center mb-10 max-sm:mb-5 py-4 max-sm:py-2">
-                    <FaBackspace
-                        className="w-12 text-white text-4xl cursor-pointer hover:text-gray-400 transition-colors duration-200 max-sm:text-3xl"
-                        onClick={() => window.history.back()}
-                    />
-                    <div className="flex justify-center flex-1">
-                        <h1 className="text-5xl text-center font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 py-4 max-sm:text-3xl">
-                            {game.name}
-                        </h1>
-                    </div>
-                </div>
-
-                {/* Main Content Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    {/* Left Column - Image */}
-                    <motion.div
-                        className="flex justify-center"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <Image
-                            width={1920}
-                            height={1080}
-                            src={game.background_image}
-                            alt={game.name}
-                            className="rounded-3xl shadow-2xl object-cover w-full max-w-lg"
-                        />
-                    </motion.div>
-
-                    {/* Right Column - Game Details */}
-                    <div>
-                        <div className="bg-gray-800 rounded-3xl shadow-xl p-8">
-                            <h2 className="text-3xl font-semibold mb-6 text-blue-300">Game Details</h2>
-                            <div className="space-y-3">
-                                <p>
-                                    <strong className="text-gray-300">Genres: </strong>
-                                    {game.genres.map((genre) => genre.name).join(", ") || "N/A"}
-                                </p>
-                                <p>
-                                    <strong className="text-gray-300">Developers/Company: </strong>
-                                    {game.developers.map((developer) => developer.name).join(", ") || "N/A"}
-                                </p>
-                                <p>
-                                    <strong className="text-gray-300">Original Size: </strong>
-                                    {game.size || "N/A"}
-                                </p>
-                                <p>
-                                    <strong className="text-gray-300">Repack Size: </strong>
-                                    {game.repack_size || "N/A"}
-                                </p>
-
-                                {/* Download Links Section */}
-                                <div className="mt-8">
-                                    <h3 className="text-2xl font-semibold mb-4 text-green-300">Download Links:</h3>
-                                    <div className="flex flex-wrap gap-4">
-                                        <Link
-                                            href={`https://fitgirl-repacks.site/${game.name}`.replace(/ /g, "-").toLowerCase() || "/"}
-                                            className="px-6 py-3 bg-blue-700 hover:bg-blue-800 text-white rounded-full shadow-md transition duration-300"
-                                            target="_blank"
-                                        >
-                                            Fitgirl-Repacks
-                                        </Link>
-                                        <Link
-                                            href={`https://dodi-repacks.site/${game.name}`.replace(/ /g, "-").toLowerCase() || "/"}
-                                            className="px-6 py-3 bg-green-700 hover:bg-green-800 text-white rounded-full shadow-md transition duration-300"
-                                            target="_blank"
-                                        >
-                                            DODI-Repacks
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Game Trailer (conditionally rendered) */}
-                {game.clip && (
-                    <div className="mt-12">
-                        <h3 className="text-3xl font-semibold mb-6 text-yellow-300">Game Trailer</h3>
-                        <motion.div
-                            whileHover={{ scale: 1.03 }}
-                            transition={{ duration: 0.3 }}
-                            className="rounded-3xl overflow-hidden shadow-2xl"
-                        >
-                            <video controls className="w-full" src={game.clip.clip} />
-                        </motion.div>
-                    </div>
-                )}
-
-                {/* Description Section */}
-                <div className="mt-12">
-                    <h2 className="text-3xl font-semibold mb-6 text-purple-300">Description</h2>
-                    <div className="bg-gray-800 rounded-3xl shadow-xl p-8">
-                        <p className="text-lg text-gray-300 leading-relaxed max-sm:text-xs max-sm:text-justify">{game.description_raw || "No description available."}</p>
-                    </div>
-                </div>
-
-                {/* Detailed Game Information Section */}
-                <div className="mt-12">
-                    <h2 className="text-3xl font-semibold mb-6 text-teal-300">More About {game.name}</h2>
-                    <div className="bg-gray-800 rounded-3xl shadow-xl p-8">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <h4 className="text-xl font-semibold mb-4">General Information</h4>
-                                <ul className="space-y-2 text-gray-300">
-                                    <li className="flex items-center space-x-2">
-                                        <FaGlobe /> <span>Website: {game.website ? <a href={game.website} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{game.website}</a> : "N/A"}</span>
-                                    </li>
-                                    <li className="flex items-center space-x-2">
-                                        <FaCalendarAlt /> <span>Release Date: {game.released || "N/A"}</span>
-                                    </li>
-                                    <li className="flex items-center space-x-2">
-                                        <FaGamepad /> <span>Playtime: {game.playtime || "N/A"} hours</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 className="text-xl font-semibold mb-4">User Ratings</h4>
-                                <ul className="space-y-2 text-gray-300">
-                                    <li className="flex items-center space-x-2">
-                                        <FaStar className="text-yellow-400" /> <span>Metacritic: {game.metacritic ? `${game.metacritic}/100` : "N/A"}</span>
-                                    </li>
-                                    <li className="flex items-center space-x-2">
-                                        <span>RAWG Rating: {game.rating ? `${game.rating.toFixed(2)} / 5` : "N/A"} (from {game.ratings_count} votes)</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* System Requirements Section */}
-                {game.system_requirements && (
-                    <div className="mt-12">
-                        <h3 className="text-3xl font-semibold mb-6 text-orange-300">System Requirements</h3>
-                        <div className="bg-gray-800 rounded-3xl shadow-xl p-8">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div className="p-6">
-                                    <h4 className="font-semibold text-2xl mb-4 text-orange-200">Minimum Requirements</h4>
-                                    <ul className="space-y-2 text-gray-300">
-                                        <SystemRequirementItem icon={<FaCheckCircle className="text-green-500" />}>
-                                            <strong>OS:</strong> {game.system_requirements.minimum.os || "N/A"}
-                                        </SystemRequirementItem>
-                                        <SystemRequirementItem icon={<FaCheckCircle className="text-green-500" />}>
-                                            <strong>Processor:</strong> {game.system_requirements.minimum.processor || "N/A"}
-                                        </SystemRequirementItem>
-                                        <SystemRequirementItem icon={<FaCheckCircle className="text-green-500" />}>
-                                            <strong>Memory:</strong> {game.system_requirements.minimum.memory || "N/A"}
-                                        </SystemRequirementItem>
-                                        <SystemRequirementItem icon={<FaCheckCircle className="text-green-500" />}>
-                                            <strong>Graphics:</strong> {game.system_requirements.minimum.graphics || "N/A"}
-                                        </SystemRequirementItem>
-                                        <SystemRequirementItem icon={<FaCheckCircle className="text-green-500" />}>
-                                            <strong>Storage:</strong> {game.system_requirements.minimum.storage || "N/A"}
-                                        </SystemRequirementItem>
-                                    </ul>
-                                </div>
-                                <div className="p-6">
-                                    <h4 className="font-semibold text-2xl mb-4 text-orange-200">Recommended Requirements</h4>
-                                    <ul className="space-y-2 text-gray-300">
-                                        <SystemRequirementItem icon={<FaCheckCircle className="text-green-500" />}>
-                                            <strong>OS:</strong> {game.system_requirements.recommended.os || "N/A"}
-                                        </SystemRequirementItem>
-                                        <SystemRequirementItem icon={<FaCheckCircle className="text-green-500" />}>
-                                            <strong>Processor:</strong> {game.system_requirements.recommended.processor || "N/A"}
-                                        </SystemRequirementItem>
-                                        <SystemRequirementItem icon={<FaCheckCircle className="text-green-500" />}>
-                                            <strong>Memory:</strong> {game.system_requirements.recommended.memory || "N/A"}
-                                        </SystemRequirementItem>
-                                        <SystemRequirementItem icon={<FaCheckCircle className="text-green-500" />}>
-                                            <strong>Graphics:</strong> {game.system_requirements.recommended.graphics || "N/A"}
-                                        </SystemRequirementItem>
-                                        <SystemRequirementItem icon={<FaCheckCircle className="text-green-500" />}>
-                                            <strong>Storage:</strong> {game.system_requirements.recommended.storage || "N/A"}
-                                        </SystemRequirementItem>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* Additional Details Section - Restructured */}
-                <div className="mt-12">
-                    <h2 className="text-3xl font-semibold mb-6 text-red-300">Additional Information</h2>
-                    <div className="bg-gray-800 rounded-3xl shadow-xl p-8">
-                        {/* Example - More detailed information can be added here, based on available API data */}
-                        <p className="text-lg text-gray-300">
-                            This section could include more details about the game&apos;s plot, characters, gameplay mechanics,
-                            or any awards it has received.  The RAWG API might provide more specific data points to populate this section.
-                        </p>
-                    </div>
-                </div>
-            </div>
+          <motion.div
+            className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center"
+            animate={{
+              scale: [1, 1.15, 1],
+              boxShadow: ["0 0 10px rgba(99, 102, 241, 0.5)", "0 0 25px rgba(99, 102, 241, 0.8)", "0 0 10px rgba(99, 102, 241, 0.5)"],
+            }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <FaGamepad className="text-white text-3xl" />
+          </motion.div>
+          <motion.h2 className="mt-6 text-2xl font-semibold text-indigo-400" animate={glowVariants.animate}>
+            Loading Game Details...
+          </motion.h2>
         </motion.div>
+      </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-red-400 text-center text-xl font-semibold p-6 bg-gray-800 rounded-lg shadow-lg border border-red-500/50"
+        >
+          {error}
+        </motion.div>
+      </div>
+    );
+  }
+
+  return (
+    <motion.div variants={fadeIn} initial="initial" animate="animate" className="bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen py-12 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center mb-10 py-4">
+          <FaBackspace
+            className="text-4xl text-indigo-400 cursor-pointer hover:text-indigo-500 transition-colors duration-200"
+            onClick={() => window.history.back()}
+          />
+          <h1 className="flex-1 text-4xl sm:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
+            {game.name}
+          </h1>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-1">
+            <motion.div whileHover={{ scale: 1.03 }} transition={{ duration: 0.3 }}>
+              <Image
+                width={1920}
+                height={1080}
+                src={game.background_image}
+                alt={game.name}
+                className="rounded-3xl shadow-2xl object-cover w-full h-64 sm:h-96"
+                quality={85}
+              />
+            </motion.div>
+            <div className="mt-6 bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-xl">
+              <h3 className="text-2xl font-semibold text-indigo-400 mb-4">Quick Info</h3>
+              <ul className="space-y-3 text-gray-300">
+                <li className="flex items-center space-x-2">
+                  <FaCalendarAlt /> <span>Released: {game.released || "N/A"}</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <FaStar className="text-yellow-400" /> <span>Rating: {game.rating}/5 ({game.ratings_count} votes)</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <FaGamepad /> <span>Playtime: {game.playtime} hours</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <FaGlobe />
+                  <span>
+                    Website: {game.website ? <a href={game.website} target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">{game.website}</a> : "N/A"}
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="lg:col-span-2 space-y-8">
+            <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-xl">
+              <h2 className="text-3xl font-semibold text-indigo-400 mb-4">Game Details</h2>
+              <div className="space-y-3 text-gray-300">
+                <p>
+                  <strong>Genres:</strong> {game.genres.map((g) => g.name).join(", ") || "N/A"}
+                </p>
+                <p>
+                  <strong>Developers:</strong> {game.developers.map((d) => d.name).join(", ") || "N/A"}
+                </p>
+                <p>
+                  <strong>Publishers:</strong> {game.publishers.map((p) => p.name).join(", ") || "N/A"}
+                </p>
+                <p>
+                  <strong>Platforms:</strong> {game.platforms.map((p) => p.platform.name).join(", ") || "N/A"}
+                </p>
+                <p>
+                  <strong>ESRB Rating:</strong> {game.esrb_rating?.name || "N/A"}
+                </p>
+                <p>
+                  <strong>Metacritic Score:</strong> {game.metacritic ? `${game.metacritic}/100` : "N/A"}
+                </p>
+                <p>
+                  <strong>Alternative Names:</strong> {game.alternative_names?.join(", ") || "N/A"}
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-xl">
+              <h2 className="text-3xl font-semibold text-purple-400 mb-4">Description</h2>
+              <p className="text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: game.description }} />
+            </div>
+
+            <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-xl">
+              <h2 className="text-3xl font-semibold text-teal-400 mb-4">Ratings Breakdown</h2>
+              <ul className="space-y-2 text-gray-300">
+                {game.ratings.map((r) => (
+                  <li key={r.id} className="flex items-center space-x-2">
+                    <FaStar className="text-yellow-400" />
+                    <span>
+                      {r.title.charAt(0).toUpperCase() + r.title.slice(1)}: {r.count} votes ({r.percent.toFixed(1)}%)
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-xl">
+              <h2 className="text-3xl font-semibold text-blue-400 mb-4">Metacritic Scores by Platform</h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300">
+                {game.metacritic_platforms.map((mp) => (
+                  <li key={mp.platform.platform} className="flex items-center space-x-2">
+                    <FaTrophy className="text-yellow-400" />
+                    <span>
+                      {mp.platform.name}:{" "}
+                      <a href={mp.url} target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">
+                        {mp.metascore}/100
+                      </a>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-xl">
+              <h2 className="text-3xl font-semibold text-green-400 mb-4">Available Stores</h2>
+              <ul className="space-y-2 text-gray-300">
+                {game.stores.map((s) => (
+                  <li key={s.id} className="flex items-center space-x-2">
+                    <FaStore />
+                    <span>
+                      {s.store.name} ({s.store.domain})
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-xl">
+              <h2 className="text-3xl font-semibold text-orange-400 mb-4">Tags</h2>
+              <div className="flex flex-wrap gap-2">
+                {game.tags.map((t) => (
+                  <span
+                    key={t.id}
+                    className="px-3 py-1 bg-indigo-600 text-white rounded-full text-sm shadow-md hover:bg-indigo-700 transition duration-200"
+                  >
+                    <FaTag className="inline mr-1" /> {t.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-xl">
+              <h2 className="text-3xl font-semibold text-red-400 mb-4">Community & Social Media</h2>
+              <ul className="space-y-2 text-gray-300">
+                <li className="flex items-center space-x-2">
+                  <FaReddit /> <span>Reddit: {game.reddit_count} posts</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <FaTwitch /> <span>Twitch Streams: {game.twitch_count}</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <FaYoutube /> <span>YouTube Videos: {game.youtube_count.toLocaleString()}</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <FaUsers /> <span>Added by: {game.added.toLocaleString()} users</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* System Requirements */}
+            {game.platforms[0].requirements.minimum || game.platforms[0].requirements.recommended ? (
+              <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-xl">
+                <h2 className="text-3xl font-semibold text-yellow-400 mb-4">System Requirements (PC)</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {game.platforms[0].requirements.minimum && (
+                    <SystemRequirementsSection title="Minimum" requirements={game.platforms[0].requirements.minimum} />
+                  )}
+                  {game.platforms[0].requirements.recommended && (
+                    <SystemRequirementsSection title="Recommended" requirements={game.platforms[0].requirements.recommended} />
+                  )}
+                </div>
+              </div>
+            ) : null}
+
+            <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-xl">
+              <h2 className="text-3xl font-semibold text-pink-400 mb-4">Additional Stats</h2>
+              <ul className="space-y-2 text-gray-300">
+                <li className="flex items-center space-x-2">
+                  <FaCode /> <span>Achievements: {game.achievements_count}</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <FaGamepad /> <span>Screenshots: {game.screenshots_count}</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <FaGamepad /> <span>Movies/Clips: {game.movies_count}</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <FaUsers /> <span>Creators: {game.creators_count}</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <FaGamepad /> <span>Series Count: {game.game_series_count}</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-xl">
+              <h2 className="text-3xl font-semibold text-green-400 mb-4">Download Links</h2>
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  href={`https://fitgirl-repacks.site/${game.slug}` || "/"}
+                  className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-md transition duration-300"
+                  target="_blank"
+                >
+                  FitGirl Repacks
+                </Link>
+                <Link
+                  href={`https://dodi-repacks.site/${game.slug}` || "/"}
+                  className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-md transition duration-300"
+                  target="_blank"
+                >
+                  DODI Repacks
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
 };
 
 export default GameDetailPage;
