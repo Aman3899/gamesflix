@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -7,6 +7,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     // Animation variants for desktop links
     const linkVariants = {
@@ -21,8 +38,27 @@ const Navbar = () => {
         visible: { opacity: 1, height: 'auto', transition: { duration: 0.3, ease: 'easeInOut' } },
     };
 
+    // Background transition variants
+    const bgVariants = {
+        scrolled: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black
+            backdropFilter: 'blur(5px)',
+            transition: { duration: 0.3 },
+        },
+        top: {
+            backgroundColor: 'rgba(0, 0, 0, 0)', // Fully transparent
+            backdropFilter: 'blur(0px)',
+            transition: { duration: 0.3 },
+        },
+    };
+
     return (
-        <header className="bg-gradient-to-r from-gray-900 via-gray-800 to-indigo-900 text-white px-4 sm:px-6 py-4 shadow-lg">
+        <motion.header
+            className={`fixed top-0 left-0 w-full z-50 text-white px-4 sm:px-6 py-4 shadow-lg`}
+            variants={bgVariants}
+            animate={isScrolled ? "scrolled" : "top"}
+            initial="top"
+        >
             <div className="container mx-auto flex items-center justify-between">
                 {/* Logo/Name */}
                 <Link href="/" className="flex items-center space-x-2">
@@ -127,7 +163,7 @@ const Navbar = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </header>
+        </motion.header>
     );
 };
 

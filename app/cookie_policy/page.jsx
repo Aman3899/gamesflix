@@ -6,7 +6,7 @@ const CookiePolicy = () => {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black flex items-center justify-center px-4">
+            <div className="min-h-screen pt-28 bg-gradient-to-br from-gray-900 via-purple-900 to-black flex items-center justify-center px-4">
                 <div className="max-w-4xl w-full text-center text-white space-y-8">
                     {/* Heading */}
                     <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">

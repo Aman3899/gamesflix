@@ -48,3 +48,10 @@
     transform: translateX(0);
   }
 }
+
+@keyframes textGlow {
+  from { text-shadow: 0 0 5px rgba(79, 70, 229, 0.5); }
+  to { text-shadow: 0 0 15px rgba(79, 70, 229, 0.8); }
+}
+.animate-text-glow { animation: textGlow 1.5s infinite alternate; }
+.animate-pulse-slow { animation: pulse 3s infinite; }

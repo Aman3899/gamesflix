@@ -66,7 +66,7 @@ const PopularGames = () => {
     };
 
     const cardVariants = {
-        hidden: { opacity: 0, y: 60, scale: 0.9 },
+        hidden: { opacity: 0, y: 60, scale: 0.9, boxShadow: "0px 0px 0px rgba(0, 0, 0, 0)" },
         visible: {
             opacity: 1,
             y: 0,
@@ -75,12 +75,10 @@ const PopularGames = () => {
         },
         hover: {
             scale: 1.05,
-            boxShadow: "0px 0px 20px rgba(99, 102, 241, 0.9)",
             transition: { duration: 0.3 },
         },
         tap: {
             scale: 0.98, // Slight shrink on click
-            boxShadow: "0px 0px 10px rgba(99, 102, 241, 0.6)",
             transition: { duration: 0.1 },
         },
     };
@@ -165,7 +163,7 @@ const PopularGames = () => {
     return (
         <>
             <Navbar darkMode={darkMode} />
-            <div className="bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen py-12">
+            <div className="bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen py-12 pt-28">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.h2
                         className="text-4xl sm:text-5xl font-extrabold text-white mb-12 text-center"
@@ -189,8 +187,8 @@ const PopularGames = () => {
                                         variants={cardVariants}
                                         initial="hidden"
                                         animate="visible"
-                                        whileHover="hover"
-                                        whileTap="tap" // Added tap animation
+                                        whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px rgba(99, 102, 241, 0.9)" }}
+                                        whileTap={{ scale: 0.95 }}
                                         exit={{ opacity: 0, scale: 0.9 }}
                                         className="bg-gray-800/80 backdrop-blur-sm rounded-xl overflow-hidden border border-indigo-500/20 shadow-xl transform-gpu cursor-pointer"
                                     >

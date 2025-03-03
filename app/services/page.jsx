@@ -2,567 +2,383 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-    FaCheckCircle,
-    FaClock,
-    FaHouseUser,
-    FaMoneyBillWave,
-    FaTools,
-    FaGamepad,
-    FaShieldAlt,
-    FaQuestionCircle,
-    FaEnvelope,
-    FaPhone,
-    FaStar,
+  FaCheckCircle,
+  FaClock,
+  FaHouseUser,
+  FaMoneyBillWave,
+  FaTools,
+  FaGamepad,
+  FaShieldAlt,
+  FaQuestionCircle,
+  FaEnvelope,
+  FaPhone,
+  FaStar,
 } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 
 const ServicesPage = () => {
-    const [showFAQ, setShowFAQ] = useState(false);
-    const [showAlert, setShowAlert] = useState(true);
-    const [activeTab, setActiveTab] = useState("installation");
+  const [showAlert, setShowAlert] = useState(true);
+  const [activeTab, setActiveTab] = useState("installation");
 
-    const serviceVariants = {
-        initial: { opacity: 0, y: 50 },
-        animate: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.75, ease: "easeInOut" },
-        },
-        hover: { scale: 1.03, transition: { duration: 0.2 } },
-    };
+  // Animation Variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2, delayChildren: 0.3 },
+    },
+  };
 
-    const faqVariants = {
-        hidden: { opacity: 0, height: 0, overflow: "hidden" },
-        visible: {
-            opacity: 1,
-            height: "auto",
-            transition: { duration: 0.5, ease: "easeInOut" },
-        },
-    };
+  const serviceVariants = {
+    initial: { opacity: 0, y: 50 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.75, ease: "easeInOut" } },
+    hover: { scale: 1.03, boxShadow: "0 0 15px rgba(124, 58, 237, 0.6)", transition: { duration: 0.2 } }, // Simplified single shadow
+    exit: { opacity: 0, y: 50, transition: { duration: 0.4, ease: "easeInOut" } },
+  };
 
-    const alertVariants = {
-        initial: { opacity: 0, y: -50 },
-        animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-        exit: { opacity: 0, y: -50, transition: { duration: 0.3 } },
-    };
+  const tabVariants = {
+    inactive: { opacity: 0.7, y: 0 },
+    active: { opacity: 1, y: -5, color: "#c084fc", borderColor: "#a78bfa", transition: { duration: 0.3 } }, // Lavender
+    hover: { y: -2, transition: { duration: 0.2 } },
+  };
 
-    const tabVariants = {
-        inactive: { opacity: 0.7, y: 0 },
-        active: {
-            opacity: 1,
-            y: -5,
-            transition: { duration: 0.3 }
-        },
-    };
+  const alertVariants = {
+    initial: { opacity: 0, y: -50 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+    exit: { opacity: 0, y: -50, transition: { duration: 0.3 } },
+  };
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setShowAlert(false);
-        }, 7000);
+  const glowVariants = {
+    animate: {
+      textShadow: [
+        "0 0 5px rgba(124, 58, 237, 0.5)",
+        "0 0 15px rgba(124, 58, 237, 0.8)",
+        "0 0 5px rgba(124, 58, 237, 0.5)",
+      ], // Deep Purple
+      transition: { duration: 1.5, repeat: Infinity, repeatType: "reverse" },
+    },
+  };
 
-        return () => clearTimeout(timer);
-    }, []);
+  const buttonVariants = {
+    hover: { scale: 1.05, boxShadow: "0 0 15px rgba(124, 58, 237, 0.8)", transition: { duration: 0.3 } }, // Consistent shadow format
+    tap: { scale: 0.95 },
+  };
 
-    return (
-        <>
-            <Navbar />
+  useEffect(() => {
+    const timer = setTimeout(() => setShowAlert(false), 7000);
+    return () => clearTimeout(timer);
+  }, []);
 
+  return (
+    <>
+      <Navbar heading="Services Nexus" />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 0.5 } }}
+        className="min-h-screen bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 py-12 px-4 sm:px-6 lg:px-12 relative overflow-hidden text-white pt-28"
+      >
+        {/* Futuristic Background Effects */}
+        <div className="absolute inset-0 bg-grid-pattern bg-cover bg-center opacity-10 pointer-events-none"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/80 via-transparent to-black/80 pointer-events-none"></div>
+        <motion.div
+          className="absolute w-64 h-64 sm:w-96 sm:h-96 bg-purple-500/20 rounded-full blur-3xl top-1/4 left-1/4 animate-pulse"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 5, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute w-48 h-48 sm:w-72 sm:h-72 bg-indigo-500/20 rounded-full blur-3xl bottom-1/4 right-1/4 animate-pulse"
+          animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 4, repeat: Infinity }}
+        />
+
+        {/* Service Under Progress Alert */}
+        <AnimatePresence>
+          {showAlert && (
             <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, transition: { duration: 0.5 } }}
-                className="bg-gradient-to-b from-gray-900 to-black min-h-screen py-12 text-white relative"
+              variants={alertVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white p-3 sm:p-4 rounded-xl shadow-2xl z-50 flex items-center space-x-2 sm:space-x-3 backdrop-blur-xl border border-yellow-400/50"
             >
-                {/* Decorative elements */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500 rounded-full filter blur-3xl opacity-10"></div>
-                    <div className="absolute bottom-40 right-10 w-40 h-40 bg-purple-500 rounded-full filter blur-3xl opacity-10"></div>
-                    <div className="absolute top-1/3 right-1/4 w-24 h-24 bg-green-500 rounded-full filter blur-3xl opacity-10"></div>
-                </div>
-
-                {/* Service Under Progress Alert */}
-                <AnimatePresence>
-                    {showAlert && (
-                        <motion.div
-                            variants={alertVariants}
-                            initial="initial"
-                            animate="animate"
-                            exit="exit"
-                            className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-yellow-600 to-orange-600 text-white p-4 rounded-xl shadow-lg z-50 flex items-center space-x-3 backdrop-blur-sm bg-opacity-90"
-                        >
-                            <FaTools className="text-2xl animate-spin" />
-                            <p className="font-medium">This service is currently under development and will be available soon. Stay tuned!</p>
-                            <button
-                                onClick={() => setShowAlert(false)}
-                                className="ml-3 p-1 rounded-full hover:bg-black/20 transition-colors"
-                            >
-                                ✕
-                            </button>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
-                <div className="max-w-5xl mx-auto px-6">
-                    <motion.h1
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0, transition: { delay: 0.2, duration: 0.7 } }}
-                        className="text-6xl pb-2 font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-500 to-purple-500"
-                    >
-                        Our Gaming Services
-                    </motion.h1>
-
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1, transition: { delay: 0.4, duration: 0.7 } }}
-                        className="text-center mb-12 text-gray-300 max-w-2xl mx-auto"
-                    >
-                        Elevate your gaming experience with our professional services designed to optimize performance and maximize enjoyment.
-                    </motion.p>
-
-                    {/* Service Tabs */}
-                    <div className="flex justify-center mb-12 border-b border-gray-700 pb-4">
-                        <motion.button
-                            variants={tabVariants}
-                            animate={activeTab === "installation" ? "active" : "inactive"}
-                            onClick={() => setActiveTab("installation")}
-                            className={`flex items-center px-6 py-3 rounded-t-lg font-semibold mr-2 transition-all ${activeTab === "installation"
-                                    ? "text-blue-400 border-b-2 border-blue-400"
-                                    : "text-gray-400 hover:text-gray-200"
-                                }`}
-                        >
-                            <FaHouseUser className="mr-2" /> Installation
-                        </motion.button>
-                        <motion.button
-                            variants={tabVariants}
-                            animate={activeTab === "details" ? "active" : "inactive"}
-                            onClick={() => setActiveTab("details")}
-                            className={`flex items-center px-6 py-3 rounded-t-lg font-semibold mr-2 transition-all ${activeTab === "details"
-                                    ? "text-green-400 border-b-2 border-green-400"
-                                    : "text-gray-400 hover:text-gray-200"
-                                }`}
-                        >
-                            <FaGamepad className="mr-2" /> Service Details
-                        </motion.button>
-                        <motion.button
-                            variants={tabVariants}
-                            animate={activeTab === "faq" ? "active" : "inactive"}
-                            onClick={() => { setActiveTab("faq"); setShowFAQ(true); }}
-                            className={`flex items-center px-6 py-3 rounded-t-lg font-semibold transition-all ${activeTab === "faq"
-                                    ? "text-purple-400 border-b-2 border-purple-400"
-                                    : "text-gray-400 hover:text-gray-200"
-                                }`}
-                        >
-                            <FaQuestionCircle className="mr-2" /> FAQ
-                        </motion.button>
-                    </div>
-
-                    {/* Installation Service */}
-                    <AnimatePresence mode="wait">
-                        {activeTab === "installation" && (
-                            <motion.div
-                                key="installation"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.4 }}
-                            >
-                                <motion.div
-                                    variants={serviceVariants}
-                                    initial="initial"
-                                    animate="animate"
-                                    whileHover="hover"
-                                    className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl shadow-2xl p-8 mb-8 border border-gray-700 backdrop-blur-sm"
-                                >
-                                    <div className="flex flex-col md:flex-row md:items-center mb-6">
-                                        <div className="bg-blue-900/30 p-4 rounded-2xl mb-4 md:mb-0 md:mr-6">
-                                            <FaHouseUser className="text-5xl text-blue-400" />
-                                        </div>
-                                        <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
-                                            In-Home Gaming Installation & Testing
-                                        </h2>
-                                    </div>
-
-                                    <p className="text-gray-300 leading-relaxed mb-6 text-lg">
-                                        Let our expert team take the hassle out of setting up your gaming
-                                        rig! We&apos;ll come to your home, install your games, configure
-                                        the settings for optimal performance, and thoroughly test
-                                        everything to ensure a seamless gaming experience.
-                                    </p>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                                        <div className="bg-gray-800/50 p-4 rounded-xl backdrop-blur-sm hover:bg-gray-800/80 transition-colors">
-                                            <div className="flex items-start">
-                                                <FaCheckCircle className="text-2xl mr-3 text-green-400 mt-1" />
-                                                <div>
-                                                    <h3 className="font-semibold text-lg text-white">Professional Installation</h3>
-                                                    <p className="text-gray-400">Expert setup of your games and necessary software</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="bg-gray-800/50 p-4 rounded-xl backdrop-blur-sm hover:bg-gray-800/80 transition-colors">
-                                            <div className="flex items-start">
-                                                <FaCheckCircle className="text-2xl mr-3 text-green-400 mt-1" />
-                                                <div>
-                                                    <h3 className="font-semibold text-lg text-white">Optimal Configuration</h3>
-                                                    <p className="text-gray-400">Personalized settings for maximum performance</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="bg-gray-800/50 p-4 rounded-xl backdrop-blur-sm hover:bg-gray-800/80 transition-colors">
-                                            <div className="flex items-start">
-                                                <FaCheckCircle className="text-2xl mr-3 text-green-400 mt-1" />
-                                                <div>
-                                                    <h3 className="font-semibold text-lg text-white">Performance Testing</h3>
-                                                    <p className="text-gray-400">Comprehensive testing to ensure smooth gameplay</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="bg-gray-800/50 p-4 rounded-xl backdrop-blur-sm hover:bg-gray-800/80 transition-colors">
-                                            <div className="flex items-start">
-                                                <FaCheckCircle className="text-2xl mr-3 text-green-400 mt-1" />
-                                                <div>
-                                                    <h3 className="font-semibold text-lg text-white">Troubleshooting</h3>
-                                                    <p className="text-gray-400">On-the-spot problem solving and optimization</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex flex-col sm:flex-row items-center justify-between bg-gray-900/50 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm">
-                                        <div className="flex items-center mb-4 sm:mb-0">
-                                            <div className="bg-yellow-900/30 p-3 rounded-full mr-3">
-                                                <FaClock className="text-xl text-yellow-400" />
-                                            </div>
-                                            <span className="text-gray-300">
-                                                Typical Install Time: <span className="font-semibold">2-4 hours</span>
-                                            </span>
-                                        </div>
-
-                                        <div className="flex items-center">
-                                            <div className="bg-green-900/30 p-3 rounded-full mr-3">
-                                                <FaMoneyBillWave className="text-xl text-green-400" />
-                                            </div>
-                                            <span className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">
-                                                Starting at Rs: 1000/-
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-8 text-center">
-                                        <button className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg">
-                                            Book Installation Service
-                                        </button>
-                                    </div>
-                                </motion.div>
-
-                                {/* Our Guarantee */}
-                                <motion.div
-                                    variants={serviceVariants}
-                                    initial="initial"
-                                    animate="animate"
-                                    whileHover="hover"
-                                    className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl shadow-2xl p-8 mb-8 border border-gray-700"
-                                >
-                                    <div className="flex flex-col md:flex-row md:items-center mb-6">
-                                        <div className="bg-yellow-900/30 p-4 rounded-2xl mb-4 md:mb-0 md:mr-6">
-                                            <FaShieldAlt className="text-5xl text-yellow-400" />
-                                        </div>
-                                        <div>
-                                            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-300 bg-clip-text text-transparent">
-                                                Our Satisfaction Guarantee
-                                            </h2>
-                                            <div className="flex mt-2">
-                                                {[1, 2, 3, 4, 5].map((star) => (
-                                                    <FaStar key={star} className="text-yellow-400 mr-1" />
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <p className="text-gray-300 leading-relaxed text-lg">
-                                        We&apos;re committed to providing top-quality service and
-                                        ensuring your complete satisfaction. If you&apos;re not completely happy
-                                        with our work, we&apos;ll do everything we can to make it right.
-                                        Our goal is to get you gaming smoothly and confidently so you can focus
-                                        on what matters most—enjoying your games to the fullest.
-                                    </p>
-                                </motion.div>
-                            </motion.div>
-                        )}
-
-                        {/* Service Details */}
-                        {activeTab === "details" && (
-                            <motion.div
-                                key="details"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.4 }}
-                                className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl shadow-2xl p-8 mb-8 border border-gray-700"
-                            >
-                                <h2 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
-                                    What You Get With Our Premium Service
-                                </h2>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-300">
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.1, duration: 0.5 }}
-                                        className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm"
-                                    >
-                                        <div className="flex items-center mb-3">
-                                            <div className="bg-blue-900/30 p-2 rounded-xl mr-3">
-                                                <FaTools className="text-blue-400" />
-                                            </div>
-                                            <h3 className="text-xl font-semibold text-blue-300">
-                                                Professional Installation
-                                            </h3>
-                                        </div>
-                                        <p className="text-gray-400">
-                                            Our team will install your games correctly, ensuring all
-                                            necessary drivers and software are up-to-date. We handle
-                                            everything from initial setup to potential compatibility
-                                            issues with meticulous attention to detail.
-                                        </p>
-                                    </motion.div>
-
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.2, duration: 0.5 }}
-                                        className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm"
-                                    >
-                                        <div className="flex items-center mb-3">
-                                            <div className="bg-green-900/30 p-2 rounded-xl mr-3">
-                                                <FaGamepad className="text-green-400" />
-                                            </div>
-                                            <h3 className="text-xl font-semibold text-green-300">
-                                                Optimal Configuration
-                                            </h3>
-                                        </div>
-                                        <p className="text-gray-400">
-                                            We&apos;ll configure your game settings to maximize
-                                            performance and visual quality based on your hardware.
-                                            We&apos;ll fine-tune graphics settings, resolution, and other
-                                            options for the best possible gaming experience.
-                                        </p>
-                                    </motion.div>
-
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.3, duration: 0.5 }}
-                                        className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm"
-                                    >
-                                        <div className="flex items-center mb-3">
-                                            <div className="bg-purple-900/30 p-2 rounded-xl mr-3">
-                                                <FaCheckCircle className="text-purple-400" />
-                                            </div>
-                                            <h3 className="text-xl font-semibold text-purple-300">
-                                                Performance Testing
-                                            </h3>
-                                        </div>
-                                        <p className="text-gray-400">
-                                            We&apos;ll run thorough tests to ensure your games run
-                                            smoothly and stably. We monitor frame rates, check for
-                                            graphical glitches, and identify any potential issues that
-                                            might impact your gaming session.
-                                        </p>
-                                    </motion.div>
-
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.4, duration: 0.5 }}
-                                        className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm"
-                                    >
-                                        <div className="flex items-center mb-3">
-                                            <div className="bg-red-900/30 p-2 rounded-xl mr-3">
-                                                <FaTools className="text-red-400" />
-                                            </div>
-                                            <h3 className="text-xl font-semibold text-red-300">
-                                                Troubleshooting
-                                            </h3>
-                                        </div>
-                                        <p className="text-gray-400">
-                                            If we encounter any problems during installation or testing,
-                                            we&apos;ll troubleshoot them on the spot. We&apos;ll diagnose
-                                            issues, research solutions, and implement fixes to get you up
-                                            and running as quickly as possible.
-                                        </p>
-                                    </motion.div>
-
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.5, duration: 0.5 }}
-                                        className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm"
-                                    >
-                                        <div className="flex items-center mb-3">
-                                            <div className="bg-yellow-900/30 p-2 rounded-xl mr-3">
-                                                <FaShieldAlt className="text-yellow-400" />
-                                            </div>
-                                            <h3 className="text-xl font-semibold text-yellow-300">
-                                                Hardware Advice (Optional)
-                                            </h3>
-                                        </div>
-                                        <p className="text-gray-400">
-                                            If you&apos;re experiencing performance issues, our team can
-                                            offer advice on upgrading your hardware. We can recommend
-                                            components that will improve your gaming experience without
-                                            breaking the bank.
-                                        </p>
-                                    </motion.div>
-
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.6, duration: 0.5 }}
-                                        className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm"
-                                    >
-                                        <div className="flex items-center mb-3">
-                                            <div className="bg-indigo-900/30 p-2 rounded-xl mr-3">
-                                                <FaQuestionCircle className="text-indigo-400" />
-                                            </div>
-                                            <h3 className="text-xl font-semibold text-indigo-300">
-                                                Ongoing Support (Optional)
-                                            </h3>
-                                        </div>
-                                        <p className="text-gray-400">
-                                            We offer extended support plans to help you with any
-                                            gaming-related issues that might arise in the future. Whether
-                                            it&apos;s driver updates, game patches, or troubleshooting
-                                            problems, we&apos;re here to help.
-                                        </p>
-                                    </motion.div>
-                                </div>
-                            </motion.div>
-                        )}
-
-                        {/* FAQ Section */}
-                        {activeTab === "faq" && (
-                            <motion.div
-                                key="faq"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.4 }}
-                                className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl shadow-2xl p-8 mb-8 border border-gray-700"
-                            >
-                                <div className="flex flex-col items-center mb-8">
-                                    <div className="bg-purple-900/30 p-4 rounded-2xl mb-4">
-                                        <FaQuestionCircle className="text-5xl text-purple-400" />
-                                    </div>
-                                    <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-purple-400 to-indigo-300 bg-clip-text text-transparent">
-                                        Frequently Asked Questions
-                                    </h2>
-                                </div>
-
-                                <motion.div
-                                    variants={faqVariants}
-                                    initial="hidden"
-                                    animate="visible"
-                                >
-                                    <div className="space-y-6">
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.1, duration: 0.5 }}
-                                            className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm"
-                                        >
-                                            <h3 className="text-xl font-semibold text-purple-300 mb-2">
-                                                What games do you install?
-                                            </h3>
-                                            <p className="text-gray-300">
-                                                We can install any games you own, whether they are digital
-                                                downloads or physical copies. We do not provide or
-                                                distribute game licenses.
-                                            </p>
-                                        </motion.div>
-
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.2, duration: 0.5 }}
-                                            className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm"
-                                        >
-                                            <h3 className="text-xl font-semibold text-purple-300 mb-2">
-                                                What areas do you service?
-                                            </h3>
-                                            <p className="text-gray-300">
-                                                We currently serve [list of areas/cities]. Please contact us
-                                                to confirm service availability in your region.
-                                            </p>
-                                        </motion.div>
-
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.3, duration: 0.5 }}
-                                            className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm"
-                                        >
-                                            <h3 className="text-xl font-semibold text-purple-300 mb-2">
-                                                How do I schedule an appointment?
-                                            </h3>
-                                            <p className="text-gray-300">
-                                                You can schedule an appointment by contacting us through
-                                                [phone, email, or booking system link].
-                                            </p>
-                                        </motion.div>
-
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.4, duration: 0.5 }}
-                                            className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm"
-                                        >
-                                            <h3 className="text-xl font-semibold text-purple-300 mb-2">
-                                                Do you offer refunds?
-                                            </h3>
-                                            <p className="text-gray-300">
-                                                Our goal is to provide you with an exceptional service that
-                                                meets your needs effectively and reliably. Consequently, our
-                                                policy doesn&apos;t typically offer refunds. However, if
-                                                you&apos;re not completely satisfied with the quality or
-                                                outcome of the service delivered, we&apos;re here to help
-                                                and find the best way to resolve your concerns. Please
-                                                reach out to our team for support, as we prioritize
-                                                customer satisfaction and aim to address any issues to
-                                                ensure you&apos;re happy with your overall experience.
-                                            </p>
-                                        </motion.div>
-                                    </div>
-                                </motion.div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-
-                    {/* Contact Information */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.7, duration: 0.5 }}
-                        className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-3xl shadow-xl p-8 text-center backdrop-blur-sm border border-gray-700/50"
-                    >
-                        <h3 className="text-2xl font-bold mb-4 text-white">Ready to Level Up Your Gaming Experience?</h3>
-                        <p className="text-gray-300 mb-6">Contact us today to schedule your professional gaming installation!</p>
-
-                        <div className="flex flex-col sm:flex-row justify-center gap-4">
-                            <a href="mailto:m.amanullah0830@gmail.com" className="inline-flex items-center justify-center px-6 py-3 bg-gray-700/50 hover:bg-gray-600/50 rounded-xl transition-all text-white font-medium backdrop-blur-sm">
-                                <FaEnvelope className="mr-2" /> Email Us
-                            </a>
-                            <a href="tel:+923091297936" className="inline-flex items-center justify-center px-6 py-3 bg-blue-600/90 hover:bg-blue-500/90 rounded-xl transition-all text-white font-medium backdrop-blur-sm">
-                                <FaPhone className="mr-2" /> +92 309 1297936
-                            </a>
-                        </div>
-                    </motion.div>
-                </div>
+              <FaTools className="text-xl sm:text-2xl animate-spin" />
+              <p className="font-medium text-sm sm:text-base">
+                Services being upgraded—expect enhanced capabilities soon!
+              </p>
+              <button
+                onClick={() => setShowAlert(false)}
+                className="ml-auto p-1 rounded-full hover:bg-black/20 transition-colors"
+              >
+                ✕
+              </button>
             </motion.div>
-        </>
-    );
+          )}
+        </AnimatePresence>
+
+        <div className="max-w-5xl mx-auto relative z-10">
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0, transition: { delay: 0.2, duration: 0.7 } }}
+            className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-center text-white bg-clip-text bg-gradient-to-br from-purple-400 to-pink-500 mb-4 animate-text-glow"
+          >
+            Gaming Service Grid
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { delay: 0.4, duration: 0.7 } }}
+            className="text-center mb-8 text-gray-300 text-sm sm:text-lg md:text-xl max-w-3xl mx-auto leading-relaxed tracking-wide"
+          >
+            Enhance your gaming with our exclusive services—designed to optimize your setup and elevate your digital experience.
+          </motion.p>
+
+          {/* Service Tabs */}
+          <div className="flex flex-wrap justify-center mb-8 border-b border-indigo-500/50 pb-3 sm:pb-4">
+            {["installation", "details", "faq"].map((tab) => (
+              <motion.button
+                key={tab}
+                variants={tabVariants}
+                animate={activeTab === tab ? "active" : "inactive"}
+                whileHover="hover"
+                onClick={() => setActiveTab(tab)}
+                className={`flex items-center px-3 sm:px-4 py-2 rounded-t-lg font-semibold mx-1 sm:mx-2 transition-all text-sm sm:text-base ${
+                  activeTab === tab ? "text-indigo-300 border-b-2 border-indigo-300" : "text-gray-400 hover:text-gray-200"
+                }`}
+              >
+                {tab === "installation" && <FaHouseUser className="mr-2" />}
+                {tab === "details" && <FaGamepad className="mr-2" />}
+                {tab === "faq" && <FaQuestionCircle className="mr-2" />}
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </motion.button>
+            ))}
+          </div>
+
+          {/* Tab Content */}
+          <AnimatePresence mode="wait">
+            {activeTab === "installation" && (
+              <motion.div
+                key="installation"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+              >
+                <motion.div
+                  variants={serviceVariants}
+                  className="bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-lg p-4 sm:p-6 mb-6 border border-indigo-500/50"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center mb-4">
+                    <div className="bg-indigo-900/30 p-3 rounded-2xl mb-3 sm:mb-0 sm:mr-4">
+                      <FaHouseUser className="text-3xl sm:text-4xl text-indigo-300 animate-pulse-slow" />
+                    </div>
+                    <h2 className="text-xl sm:text-2xl font-bold text-white bg-clip-text bg-gradient-to-br from-purple-300 to-pink-400">
+                      In-Home Gaming Setup & Calibration
+                    </h2>
+                  </div>
+                  <p className="text-gray-300 leading-relaxed mb-4 text-sm sm:text-base">
+                    Our experts will setup your gaming rig, calibrate settings for peak performance, and conduct tests to ensure a seamless experience.
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
+                    {[
+                      { icon: FaCheckCircle, title: "Full Setup", desc: "Detailed setup of hardware and software." },
+                      { icon: FaCheckCircle, title: "Calibration", desc: "Optimal visual and performance settings." },
+                      { icon: FaCheckCircle, title: "Testing", desc: "Thorough testing for a seamless experience." },
+                      { icon: FaCheckCircle, title: "Troubleshooting", desc: "Immediate troubleshooting and resolution." },
+                    ].map((item, index) => (
+                      <motion.div
+                        key={index}
+                        variants={serviceVariants}
+                        className="bg-gray-900/50 p-3 rounded-xl backdrop-blur-sm hover:bg-gray-900/70 transition-colors"
+                      >
+                        <div className="flex items-center">
+                          <item.icon className="text-xl mr-2 text-green-400" />
+                          <div>
+                            <h3 className="font-semibold text-sm text-white">{item.title}</h3>
+                            <p className="text-gray-400 text-xs">{item.desc}</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                  <div className="flex flex-col sm:flex-row items-center justify-between bg-gray-900/50 p-3 sm:p-4 rounded-2xl border border-indigo-500/50 backdrop-blur-sm">
+                    <div className="flex items-center mb-2 sm:mb-0">
+                      <div className="bg-yellow-900/30 p-2 rounded-full mr-2">
+                        <FaClock className="text-xl text-yellow-400 animate-pulse-slow" />
+                      </div>
+                      <span className="text-gray-300 text-sm">
+                        Setup Time: <span className="font-semibold">2-4 hours</span>
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="bg-green-900/30 p-2 rounded-full mr-2">
+                        <FaMoneyBillWave className="text-xl text-green-400" />
+                      </div>
+                      <span className="text-xl font-bold text-white bg-clip-text bg-gradient-to-br from-green-400 to-teal-300">
+                        Starting at Rs: 1000/-
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-6 text-center">
+                    <motion.button
+                      variants={buttonVariants}
+                      whileHover="hover"
+                      whileTap="tap"
+                      className="bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-2 px-4 sm:px-6 rounded-full transition-all shadow-lg text-sm"
+                    >
+                      Book a Setup
+                    </motion.button>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  variants={serviceVariants}
+                  className="bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-lg p-4 sm:p-6 mb-6 border border-indigo-500/50"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center mb-4">
+                    <div className="bg-yellow-900/30 p-3 rounded-2xl mb-3 sm:mb-0 sm:mr-4">
+                      <FaShieldAlt className="text-3xl sm:text-4xl text-yellow-400 animate-pulse-slow" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl sm:text-2xl font-bold text-white bg-clip-text bg-gradient-to-br from-yellow-300 to-orange-400">
+                        Nexus Satisfaction Guarantee
+                      </h2>
+                      <div className="flex mt-2">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <FaStar key={star} className="text-yellow-400 mr-1" />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-gray-300 leading-relaxed text-sm">
+                    We ensure uncompromised quality. If your system isn’t perfect, we’ll recalibrate until you’re satisfied.
+                  </p>
+                </motion.div>
+              </motion.div>
+            )}
+
+            {activeTab === "details" && (
+              <motion.div
+                key="details"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+              >
+                <motion.div
+                  variants={serviceVariants}
+                  className="bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-lg p-4 sm:p-6 mb-6 border border-indigo-500/50"
+                >
+                  <h2 className="text-2xl font-bold mb-6 text-center text-white bg-clip-text bg-gradient-to-br from-green-300 to-indigo-300 animate-text-glow">
+                    Premium Service Details
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-gray-300">
+                    {[
+                      { icon: FaTools, color: "blue", title: "Hardware Setup", desc: "Full spectrum hardware setup with compatibility checks." },
+                      { icon: FaGamepad, color: "green", title: "Software Setup", desc: "Detailed software installation and configuration." },
+                      { icon: FaCheckCircle, color: "purple", title: "Performance Tuning", desc: "Optimization for graphics, frame rates, and performance." },
+                      { icon: FaTools, color: "red", title: "Troubleshooting", desc: "Real-time diagnostics and issue resolution." },
+                      { icon: FaShieldAlt, color: "yellow", title: "Hardware Recommendations", desc: "Expert hardware upgrade recommendations." },
+                      { icon: FaQuestionCircle, color: "indigo", title: "Extended Support", desc: "Ongoing support for updates and maintenance." },
+                    ].map((item, index) => (
+                      <motion.div
+                        key={index}
+                        variants={serviceVariants}
+                        className="bg-gray-900/50 p-3 sm:p-4 rounded-2xl border border-indigo-500/50 backdrop-blur-sm hover:bg-gray-900/70 transition-colors"
+                      >
+                        <div className="flex items-center mb-2">
+                          <div className={`bg-${item.color}-900/30 p-2 rounded-xl mr-2`}>
+                            <item.icon className={`text-${item.color}-400 text-xl sm:text-2xl animate-pulse-slow`} />
+                          </div>
+                          <h3 className={`text-lg sm:text-xl font-semibold text-${item.color}-300`}>{item.title}</h3>
+                        </div>
+                        <p className="text-gray-400 text-sm">{item.desc}</p>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+
+            {activeTab === "faq" && (
+              <motion.div
+                key="faq"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+              >
+                <motion.div
+                  variants={serviceVariants}
+                  className="bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-lg p-4 sm:p-6 mb-6 border border-indigo-500/50"
+                >
+                  <div className="flex flex-col items-center mb-4">
+                    <div className="bg-indigo-900/30 p-3 rounded-2xl">
+                      <FaQuestionCircle className="text-3xl sm:text-4xl text-indigo-300 animate-pulse-slow" />
+                    </div>
+                    <h2 className="text-xl sm:text-2xl font-bold text-center text-white bg-clip-text bg-gradient-to-br from-purple-300 to-teal-300 animate-text-glow">
+                      Frequently Asked Questions
+                    </h2>
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { q: "What games do you support?", a: "We support most legally owned games, digital or physical." },
+                      { q: "What areas do you serve?", a: "Our services are available in select cities. Contact us for availability." },
+                      { q: "How do I book a service?", a: "Contact us via phone or email to schedule a setup." },
+                      { q: "What if I'm not satisfied?", a: "We offer recalibration until you're satisfied. Contact support for issues." },
+                      { q: "Do you handle multi-platform setups?", a: "Yes, we support PC, consoles, and VR setups." },
+                    ].map((faq, index) => (
+                      <motion.div
+                        key={index}
+                        variants={serviceVariants}
+                        className="bg-gray-900/50 p-3 sm:p-4 rounded-2xl border border-indigo-500/50 backdrop-blur-sm hover:bg-gray-900/70 transition-colors"
+                      >
+                        <h3 className="text-lg font-semibold text-indigo-300 mb-1">{faq.q}</h3>
+                        <p className="text-gray-300 text-sm">{faq.a}</p>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Contact Information */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
+            className="bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-lg p-4 sm:p-6 text-center border border-indigo-500/50"
+          >
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 text-white bg-clip-text bg-gradient-to-br from-purple-300 to-teal-300 animate-text-glow">
+              Ready to Level Up?
+            </h3>
+            <p className="text-gray-300 mb-4 text-sm">
+              Contact us to schedule your personalized gaming setup!
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-3">
+              <motion.a
+                href="mailto:m.amanullah0830@gmail.com"
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-gray-900/50 hover:bg-gray-900/70 rounded-xl transition-all text-white font-medium backdrop-blur-sm text-sm"
+              >
+                <FaEnvelope className="mr-2" /> Email Us
+              </motion.a>
+              <motion.a
+                href="tel:+923091297936"
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-indigo-600/90 hover:bg-indigo-700/90 rounded-xl transition-all text-white font-medium backdrop-blur-sm text-sm"
+              >
+                <FaPhone className="mr-2" /> Call +92 309 1297936
+              </motion.a>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+    </>
+  );
 };
 
 export default ServicesPage;
